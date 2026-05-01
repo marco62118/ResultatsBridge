@@ -1,0 +1,401 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>Donne — Bridge Online</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            background: #1B5E20;
+            color: white;
+            font-family: 'DM Sans', sans-serif;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* ── Bandeau ── */
+        .bandeau { background: #2E7D32; padding: 4px 8px; }
+
+        .bandeau-ligne1 {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .btn-retour {
+            background: #ef5350;
+            border: 2px solid #ff8a80;
+            color: white;
+            font-size: 1.4rem;
+            cursor: pointer;
+            padding: 2px 10px;
+            line-height: 1;
+            border-radius: 6px;
+            font-weight: 900;
+        }
+
+        .bandeau-titre { color: white; font-size: 13px; font-weight: 600; }
+
+        .bandeau-ligne2 {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 4px;
+            padding: 2px 0 2px;
+            font-size: 13px;
+        }
+
+        .bandeau-ligne3 {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 12px;
+            padding: 2px 0 4px;
+            font-size: 12px;
+        }
+
+        .info-contrat { color: #ffe082; font-weight: 700; }
+        .info-entame  { color: #b2dfdb; font-weight: 600; }
+
+        .eq-ns  { color: #ffff00; font-weight: 900; font-size: 14px; }
+        .eq-eo  { color: #00ffff; font-weight: 900; font-size: 14px; }
+        .eq-txt { color: white; }
+
+        /* ── Tapis ── */
+        .tapis {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            padding: 6px;
+            gap: 4px;
+        }
+
+        .zone-nord, .zone-sud {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 2px;
+        }
+
+        .label-joueur { font-size: 15px; font-weight: 700; color: white; }
+
+        .mains-ns {
+            display: flex;
+            justify-content: center;
+            gap: 2px;
+            width: 100%;
+        }
+
+        /* ── CARTES VERTICALES (Nord/Sud) ── */
+        .carte-v {
+            background: white;
+            border: 1px solid #999;
+            border-radius: 5px;
+            width: clamp(34px, calc(100vw / 13.5), 58px);
+            aspect-ratio: 0.65;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: space-between;
+            padding: 3px 2px;
+        }
+
+        .carte-v .valeur {
+            font-size: clamp(16px, 2.6vw, 24px);
+            font-weight: 900;
+            color: black;
+            line-height: 1;
+        }
+
+        .carte-v .symbole {
+            font-size: clamp(20px, 3.2vw, 30px);
+            line-height: 1;
+        }
+
+        /* ── Centre ── */
+        .zone-centre {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex: 1;
+            gap: 4px;
+        }
+
+        /* ── CARTES HORIZONTALES (Est/Ouest) ── */
+        .mains-eo { display: flex; flex-direction: column; gap: 2px; }
+
+        .carte-h {
+            background: white;
+            border: 1px solid #999;
+            border-radius: 5px;
+            width: clamp(52px, 10vw, 72px);
+            height: clamp(26px, 4.5vw, 36px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 3px;
+        }
+
+        .carte-h .valeur {
+            font-size: clamp(16px, 2.6vw, 24px);
+            font-weight: 900;
+            color: black;
+        }
+
+        .carte-h .symbole { font-size: clamp(16px, 2.6vw, 24px); }
+
+        .rouge { color: red; }
+        .noir  { color: black; }
+
+        /* ── Tableau enchères ── */
+        .tableau-encheres {
+            background: white;
+            border: 1px solid #607d8b;
+            border-radius: 4px;
+            width: clamp(180px, 30vw, 280px);
+            flex-shrink: 0;
+            color: black;
+            overflow: hidden;
+            max-height: 260px;
+        }
+
+        .enc-header {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+        }
+
+        .enc-header .col {
+            text-align: center;
+            font-size: clamp(9px, 1.2vw, 12px);
+            font-weight: 700;
+            padding: 5px 2px;
+            border: 1px solid #546e7a;
+        }
+
+        .enc-vuln   { background: #EF5350; color: white; }
+        .enc-normal { background: #ECEFF1; color: black; }
+
+        .enc-body { overflow-y: auto; max-height: 220px; }
+
+        .enc-row { display: grid; grid-template-columns: repeat(4, 1fr); }
+
+        .enc-cell {
+            text-align: center;
+            padding: 6px 2px;
+            border: 1px solid #546e7a;
+            font-size: clamp(13px, 2vw, 18px);
+            font-weight: 800;
+            min-height: 28px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .chargement {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            font-size: 1.2rem;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+
+<div id="app"><div class="chargement">Chargement...</div></div>
+
+<script>
+const donne = JSON.parse(sessionStorage.getItem('donne') || 'null');
+
+if (!donne) {
+    document.getElementById('app').innerHTML = '<div class="chargement">❌ Données manquantes</div>';
+} else {
+    renderDonne(donne);
+}
+
+function renderDonne(d) {
+    const nsVuln = d.vulnerable === 'NS' || d.vulnerable === 'T';
+    const eoVuln = d.vulnerable === 'EO' || d.vulnerable === 'T';
+
+    const encheres = (d.encheres && d.encheres.length > 0)
+        ? d.encheres
+        : reconstruireEncheres(d.contrat, d.declarant, d.donneur);
+
+    // Formater résultat
+    const resText = (d.resultat_contrat === '=' || d.resultat_contrat === '0')
+        ? 'égal'
+        : `${d.resultat_contrat} ${d.nombre_pli || ''}`;
+    const contratFormate = (d.contrat || '').replace(/P/g,'♠').replace(/C/g,'♥').replace(/K/g,'♦').replace(/T/g,'♣').replace(/S/g,' SA');
+    const entame = d.carteEntame
+        ? d.carteEntame.replace(/P/g,'♠').replace(/C/g,'♥').replace(/K/g,'♦').replace(/T/g,'♣')
+        : '';
+
+    document.getElementById('app').innerHTML = `
+        <div class="bandeau">
+            <div class="bandeau-ligne1">
+                <button class="btn-retour" onclick="history.back()">&#8592;</button>
+                <span class="bandeau-titre">Tournoi N°${d.idTournoi}</span>
+            </div>
+            <div class="bandeau-ligne2">
+                <span class="eq-txt">Donne ${d.numero_donne} :</span>
+                <span class="eq-ns">NS ${d.equipeNS}</span>
+                <span class="eq-txt">contre</span>
+                <span class="eq-eo">EO ${d.equipeEO}</span>
+            </div>
+            <div class="bandeau-ligne3">
+                <span class="info-contrat">${contratFormate} par ${d.declarant || '—'} — ${resText}</span>
+                ${entame ? `<span class="info-entame">Entame : ${entame}</span>` : ''}
+            </div>
+        </div>
+
+        <div class="tapis">
+            <div class="zone-nord">
+                <span class="label-joueur">NORD</span>
+                <div class="mains-ns" id="mains-N"></div>
+            </div>
+
+            <div class="zone-centre">
+                <div>
+                    <div class="label-joueur" style="text-align:center;margin-bottom:3px">OUEST</div>
+                    <div class="mains-eo" id="mains-O"></div>
+                </div>
+
+                <div class="tableau-encheres">
+                    <div class="enc-header">
+                        ${['N','E','S','O'].map(p => {
+                            const nom = {N:'NORD',E:'EST',S:'SUD',O:'OUEST'}[p];
+                            const vuln = (nsVuln && (p==='N'||p==='S')) || (eoVuln && (p==='E'||p==='O'));
+                            return `<div class="col ${vuln?'enc-vuln':'enc-normal'}">${nom}</div>`;
+                        }).join('')}
+                    </div>
+                    <div class="enc-body" id="enc-body"></div>
+                </div>
+
+                <div>
+                    <div class="label-joueur" style="text-align:center;margin-bottom:3px">EST</div>
+                    <div class="mains-eo" id="mains-E"></div>
+                </div>
+            </div>
+
+            <div class="zone-sud">
+                <div class="mains-ns" id="mains-S"></div>
+                <span class="label-joueur">SUD</span>
+            </div>
+        </div>
+    `;
+
+    ['N','S'].forEach(pos => {
+        const container = document.getElementById('mains-' + pos);
+        (d.mains[pos] || []).forEach(c => container.appendChild(carteVerticale(c)));
+    });
+
+    ['O','E'].forEach(pos => {
+        const container = document.getElementById('mains-' + pos);
+        (d.mains[pos] || []).forEach(c => container.appendChild(carteHorizontale(c)));
+    });
+
+    renderEncheres(encheres);
+}
+
+function carteVerticale(c) {
+    const [valeur, couleur] = parseCarteCode(c);
+    const isRouge = couleur === 'C' || couleur === 'K';
+    const el = document.createElement('div');
+    el.className = 'carte-v';
+    el.innerHTML = `
+        <span class="valeur">${valeur}</span>
+        <span class="symbole ${isRouge?'rouge':'noir'}">${symbole(couleur)}</span>
+    `;
+    return el;
+}
+
+function carteHorizontale(c) {
+    const [valeur, couleur] = parseCarteCode(c);
+    const isRouge = couleur === 'C' || couleur === 'K';
+    const el = document.createElement('div');
+    el.className = 'carte-h';
+    el.innerHTML = `
+        <span class="valeur">${valeur}</span>
+        <span class="symbole ${isRouge?'rouge':'noir'}">${symbole(couleur)}</span>
+    `;
+    return el;
+}
+
+function parseCarteCode(code) {
+    if (!code) return ['?', '?'];
+    const couleur = code.slice(-1);
+    const valeur  = code.slice(0, -1);
+    return [valeur, couleur];
+}
+
+function symbole(c) {
+    return { P:'♠', C:'♥', K:'♦', T:'♣' }[c] || c;
+}
+
+function renderEncheres(encheres) {
+    const body = document.getElementById('enc-body');
+    if (!body) return;
+
+    const positions = ['N','E','S','O'];
+    const aligne = [];
+
+    if (encheres.length > 0) {
+        const premier  = encheres[0].joueur.toUpperCase().charAt(0);
+        const decalage = positions.indexOf(premier);
+        for (let i = 0; i < decalage; i++) aligne.push('');
+        encheres.forEach(ann => aligne.push(formaterAnnonce(ann.annonce)));
+    }
+
+    const lignes = [];
+    for (let i = 0; i < aligne.length; i += 4) lignes.push(aligne.slice(i, i+4));
+
+    body.innerHTML = lignes.map(ligne => `
+        <div class="enc-row">
+            ${[0,1,2,3].map(i => {
+                const txt = ligne[i] || '';
+                const isRouge = txt.includes('♥') || txt.includes('♦');
+                return `<div class="enc-cell" style="color:${isRouge?'red':'black'}">${txt}</div>`;
+            }).join('')}
+        </div>
+    `).join('');
+}
+
+function formaterAnnonce(ann) {
+    const up = ann.toUpperCase();
+    if (up === 'PASSE') return 'Passe';
+    if (up === 'X' || up === 'CONTRE') return 'X';
+    if (up === 'XX' || up === 'SURCONTRE') return 'XX';
+    return ann.replace(/P/g,'♠').replace(/C/g,'♥').replace(/K/g,'♦').replace(/T/g,'♣').replace(/S/g,' SA');
+}
+
+function reconstruireEncheres(contrat, declarant, donneur) {
+    const encheres  = [];
+    const positions = ['O','N','E','S'];
+    const posD      = {NORD:'N',SUD:'S',EST:'E',OUEST:'O',N:'N',S:'S',E:'E',O:'O'};
+    const posDeclarant = posD[(declarant||'').toUpperCase()] || 'N';
+    const posDonneur   = (donneur||'N').toUpperCase();
+
+    const iDonneur   = positions.indexOf(posDonneur);
+    const iDeclarant = positions.indexOf(posDeclarant);
+    if (iDonneur === -1 || iDeclarant === -1) return [];
+
+    let idx = iDonneur;
+    while (idx !== iDeclarant) {
+        encheres.push({ joueur: positions[idx], annonce: 'Passe' });
+        idx = (idx + 1) % 4;
+    }
+    encheres.push({ joueur: posDeclarant, annonce: contrat });
+    idx = (iDeclarant + 1) % 4;
+    for (let i = 0; i < 3; i++) {
+        encheres.push({ joueur: positions[idx], annonce: 'Passe' });
+        idx = (idx + 1) % 4;
+    }
+    return encheres;
+}
+</script>
+</body>
+</html>

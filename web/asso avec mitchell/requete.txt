@@ -1,0 +1,50 @@
+#-- Supprimer toutes les lignes pour ce club
+DELETE FROM associations WHERE email = 'test@bridge.fr';
+
+#- Recréer proprement avec le bon mot de passe
+INSERT INTO associations (nom, email, mdp_hash, token_api, actif, plan)
+VALUES (
+    'Club Test',
+    'test@bridge.fr',
+    SHA2('12345', 256),
+    UUID(),
+    1,
+    'gratuit'
+);
+
+#Pour la prochaine fois, pour modifier un mot de passe sans recréer la ligne :
+sqlUPDATE associations 
+SET mdp_hash = SHA2('nouveauMotDePasse', 256)
+WHERE email = 'test@bridge.fr';
+
+
+
+#créer une association
+INSERT INTO associations (nom, email, mdp_hash, token_api, actif, plan)
+VALUES (
+    'Nom du Club',
+    'email@club.fr',
+    SHA2('motdepasse', 256),
+    UUID(),
+    1,
+    'gratuit'
+);
+
+#-- Créer un nouveau code
+INSERT INTO codes_invitation (code, description) VALUES ('EMBRUN2025', 'Club Embrun');
+
+#-- Désactiver un code usagé
+UPDATE codes_invitation SET actif = 0 WHERE code = 'BRIDGE2025';
+
+#-- Voir tous les codes
+SELECT * FROM codes_invitation;
+
+
+#— Créer un compte joueur test avec email et mdp dans phpMyAdmin :
+UPDATE joueurs 
+SET email = 'marco62118@gmail.com', mdp_hash = SHA2('123456', 256), actif = 1
+WHERE ID = 1;
+
+**4 — Tester** en allant sur :
+```
+https://tournoi-bridge-online.alwaysdata.net/asso/resultats.html

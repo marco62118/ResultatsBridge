@@ -1,0 +1,736 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Résultats du tournoi — Bridge Online</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600;700&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --vert:  #1a472a;
+            --vert2: #2d6a4f;
+            --or:    #c9a84c;
+            --creme: #f8f4ec;
+            --texte: #1c1c1c;
+            --gris:  #6b6b6b;
+            --rouge: #EF5350;
+            --bleu-mvnt:  #BBDEFB;
+            --bleu-titre: #1565C0;
+            --bleu-total: #E3F2FD;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'DM Sans', sans-serif;
+            background: var(--creme);
+            color: var(--texte);
+            min-height: 100vh;
+        }
+
+        .msg-rotation {
+            display: none;
+            background: var(--vert);
+            color: white;
+            text-align: center;
+            padding: 0.5rem;
+            font-size: 0.82rem;
+        }
+        @media screen and (max-width: 768px) and (orientation: portrait) {
+            .msg-rotation { display: block; }
+        }
+
+        .header {
+            background: var(--vert);
+            color: white;
+            padding: 0.8rem 1.2rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        .header-titre { font-family: 'Cormorant Garamond', serif; font-size: 1.2rem; font-weight: 600; }
+        .btn-retour {
+            background: rgba(255,255,255,0.15); color: white;
+            border: 1px solid rgba(255,255,255,0.3);
+            padding: 0.35rem 0.8rem; border-radius: 6px;
+            font-size: 0.82rem; cursor: pointer;
+            text-decoration: none; transition: background 0.2s;
+        }
+        .btn-retour:hover { background: rgba(255,255,255,0.25); }
+
+        .main { padding: 0.8rem; }
+
+        .tournoi-info {
+            background: white; border-radius: 8px;
+            padding: 0.7rem 1rem; margin-bottom: 0.8rem;
+            border: 1px solid rgba(201,168,76,0.2);
+            display: flex; gap: 1.2rem; flex-wrap: wrap;
+            align-items: center; font-size: 0.85rem;
+        }
+        .tournoi-info span { color: var(--gris); }
+        .tournoi-info strong { color: var(--texte); }
+
+        .onglets { display: flex; gap: 0.4rem; margin-bottom: 0.8rem; }
+        .onglet {
+            padding: 0.45rem 0.9rem; border-radius: 7px;
+            font-size: 0.83rem; font-weight: 500; cursor: pointer;
+            border: 1.5px solid #e0ddd6; background: white; color: var(--gris);
+            transition: all 0.15s;
+        }
+        .onglet.actif { background: var(--vert); color: white; border-color: var(--vert); }
+
+        .chargement { text-align: center; padding: 2rem; color: var(--gris); }
+
+        .msg-reconnexion {
+            background: #fff3e0; border: 1px solid #ffcc02;
+            color: #e65100; padding: 0.8rem 1rem;
+            border-radius: 8px; margin-bottom: 0.8rem;
+            display: none; font-size: 0.88rem;
+        }
+
+        /* ── Classement ── */
+        table.classement {
+            width: 100%; border-collapse: collapse;
+            background: white; border-radius: 10px;
+            overflow: hidden; box-shadow: 0 1px 4px rgba(0,0,0,0.04);
+        }
+        table.classement th {
+            background: var(--vert); color: white;
+            padding: 0.65rem 1rem; text-align: left;
+            font-size: 0.78rem; text-transform: uppercase; letter-spacing: 0.04em;
+        }
+        table.classement td { padding: 0.7rem 1rem; border-bottom: 1px solid #f0ede6; font-size: 0.88rem; }
+        table.classement tr:last-child td { border-bottom: none; }
+        table.classement tr:hover td { background: #fafaf7; }
+        .rang-1 td { background: rgba(201,168,76,0.1); font-weight: 600; }
+        .rang-2 td { background: rgba(201,168,76,0.05); }
+
+        /* ════════════════════════════════════════════════════════
+           TABLEAU STANDARD (tous tournois sauf par4equ2t21d)
+           ════════════════════════════════════════════════════════ */
+        .tableau-wrapper {
+            width: 100%; border-radius: 8px;
+            box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+            overflow-x: auto; -webkit-overflow-scrolling: touch;
+        }
+        table.donnes {
+            width: 100%; border-collapse: collapse;
+            background: white; min-width: 680px;
+        }
+        table.donnes thead tr { background: #b0bec5; }
+        table.donnes th {
+            padding: 6px 3px; text-align: center;
+            font-size: 0.7rem; font-weight: 700;
+            border: 0.5px solid #90a4ae;
+        }
+        table.donnes td {
+            padding: 5px 3px; text-align: center;
+            border: 0.5px solid #e0e0e0; cursor: pointer;
+            vertical-align: middle; font-size: 0.75rem; line-height: 1.3;
+        }
+        table.donnes th:nth-child(1), table.donnes td:nth-child(1)   { width: 5%; }
+        table.donnes th:nth-child(2), table.donnes td:nth-child(2)   { width: 12%; }
+        table.donnes th:nth-child(3), table.donnes td:nth-child(3)   { width: 12%; }
+        table.donnes th:nth-child(4), table.donnes td:nth-child(4)   { width: 8%; }
+        table.donnes th:nth-child(5), table.donnes td:nth-child(5)   { width: 10%; }
+        table.donnes th:nth-child(6), table.donnes td:nth-child(6)   { width: 8%; }
+        table.donnes th:nth-child(7), table.donnes td:nth-child(7)   { width: 8%; }
+        table.donnes th:nth-child(8), table.donnes td:nth-child(8)   { width: 9%; }
+        table.donnes th:nth-child(9), table.donnes td:nth-child(9)   { width: 9%; }
+        table.donnes th:nth-child(10), table.donnes td:nth-child(10) { width: 9%; }
+        table.donnes th:nth-child(11), table.donnes td:nth-child(11) { width: 9%; }
+        table.donnes tbody tr:hover td { background: #f0f7f2 !important; }
+        .vulnerable { background: var(--rouge) !important; color: white; font-weight: 700; }
+
+        /* ════════════════════════════════════════════════════════
+           TABLEAU PAR4EQU2T21D
+           ════════════════════════════════════════════════════════ */
+        #section-donnes-par4 {
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        table.donnes-par4 {
+            width: 100%;
+            border-collapse: collapse;
+            background: white;
+            min-width: 600px;
+            box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        /* En-tête fixe */
+        table.donnes-par4 thead tr { background: #b0bec5; }
+        table.donnes-par4 th {
+            padding: 6px 4px;
+            text-align: center;
+            font-size: 0.7rem;
+            font-weight: 700;
+            border: 0.5px solid #90a4ae;
+        }
+
+        /* Cellules données */
+        table.donnes-par4 td {
+            padding: 4px 3px;
+            text-align: center;
+            border: 0.5px solid #e0e0e0;
+            font-size: 0.74rem;
+            vertical-align: middle;
+            line-height: 1.3;
+        }
+
+        /* Ligne séparatrice de mouvement (bleue) */
+        table.donnes-par4 tr.sep-mvnt td {
+            background: var(--bleu-mvnt);
+            color: var(--bleu-titre);
+            font-weight: 700;
+            font-size: 0.75rem;
+            padding: 5px 8px;
+            border: 0.5px solid var(--bleu-titre);
+        }
+        table.donnes-par4 tr.sep-mvnt td.libelle-ebl {
+            font-size: 0.68rem;
+            font-weight: 700;
+            width: 44px;
+            min-width: 44px;
+            max-width: 44px;
+        }
+
+        /* Ligne total de mouvement */
+        table.donnes-par4 tr.total-mvnt td {
+            background: var(--bleu-total);
+            color: var(--bleu-titre);
+            font-weight: 700;
+            font-size: 0.75rem;
+            border: 0.5px solid var(--bleu-titre);
+        }
+        table.donnes-par4 tr.total-mvnt td.total-ebl {
+            background: var(--bleu-mvnt);
+            font-size: 0.82rem;
+            width: 44px;
+            min-width: 44px;
+            max-width: 44px;
+        }
+
+        /* Ligne T2 : légèrement grisée pour distinguer T1/T2 */
+        table.donnes-par4 tr.ligne-t2 td {
+            background: #fafafa;
+        }
+
+        /* Cellule EBL fusionnée (rowspan=2) */
+        table.donnes-par4 td.ebl {
+            width: 44px;
+            min-width: 44px;
+            max-width: 44px;
+            font-weight: 700;
+            font-size: 0.82rem;
+            background: white;
+            vertical-align: middle;
+        }
+        table.donnes-par4 td.ebl.ebl-win { color: var(--vert); }
+        table.donnes-par4 td.ebl.ebl-zero { color: #bbb; }
+
+        table.donnes-par4 tbody tr:hover td { background: #f0f7f2 !important; }
+        table.donnes-par4 tr.sep-mvnt:hover td  { background: var(--bleu-mvnt) !important; }
+        table.donnes-par4 tr.total-mvnt:hover td { background: var(--bleu-total) !important; }
+        table.donnes-par4 tr.total-mvnt:hover td.total-ebl { background: var(--bleu-mvnt) !important; }
+    </style>
+</head>
+<body>
+
+<div class="msg-rotation">📱 Tournez votre téléphone en mode paysage pour un meilleur affichage</div>
+
+<div class="header">
+    <div class="header-titre" id="header-titre">🃏 Tournoi</div>
+    <a href="#" class="btn-retour" onclick="retourListe()">← Retour</a>
+</div>
+
+<div class="main">
+
+    <div class="msg-reconnexion" id="msg-reconnexion">
+        ⚠️ Session expirée. <a href="resultats.html">Reconnectez-vous</a>
+    </div>
+
+    <div class="tournoi-info" id="tournoi-info">
+        <div class="chargement">Chargement...</div>
+    </div>
+
+    <div class="onglets">
+        <button class="onglet actif" onclick="afficherOnglet('donnes', this)">🃏 Détail des donnes</button>
+        <button class="onglet" onclick="afficherOnglet('classement', this)">🏆 Classement</button>
+    </div>
+
+    <!-- ── Tableau standard ── -->
+    <div id="section-donnes" style="display:none">
+        <div class="tableau-wrapper">
+            <table class="donnes">
+                <thead>
+                    <tr>
+                        <th>N°</th><th>NS</th><th>EO</th>
+                        <th>Contrat</th><th>Déclarant</th><th>Résultat</th>
+                        <th>Entame</th><th>Sc. NS</th><th>Sc. EO</th>
+                        <th>Pts NS</th><th>Pts EO</th>
+                    </tr>
+                </thead>
+                <tbody id="tbody-donnes"></tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- ── Tableau par4equ2t21d ── -->
+    <div id="section-donnes-par4" style="display:none">
+        <table class="donnes-par4" id="table-par4">
+            <thead>
+                <tr>
+                    <th style="width:5%">N°</th>
+                    <th style="width:7%">Table</th>
+                    <th style="width:9%">NS</th>
+                    <th style="width:9%">EO</th>
+                    <th style="width:9%">Contrat</th>
+                    <th style="width:10%">Déclarant</th>
+                    <th style="width:8%">Résultat</th>
+                    <th style="width:8%">Entame</th>
+                    <th style="width:8%">Sc. NS</th>
+                    <th style="width:8%">Sc. EO</th>
+                    <th style="width:44px;min-width:44px">Pts</th>
+                    <th style="width:44px;min-width:44px">Pts</th>
+                </tr>
+            </thead>
+            <tbody id="tbody-par4"></tbody>
+        </table>
+    </div>
+
+    <!-- ── Classement ── -->
+    <div id="section-classement" style="display:none">
+        <div id="contenu-classement" class="chargement">Chargement...</div>
+    </div>
+
+</div>
+
+<script>
+const params      = new URLSearchParams(window.location.search);
+const idTournoi   = params.get('id');
+const token       = params.get('token');
+const tokenPublic = params.get('tokenPublic');
+
+let donnesData  = [];
+let equipesData = [];
+let typeTournoi = '';
+
+// ── Barème EBL (JS) ──────────────────────────────────────────────────────────
+function pointsVersEbl(diff) {
+    diff = Math.abs(diff);
+    if (diff <=   10) return 0;
+    if (diff <=   40) return 1;
+    if (diff <=   80) return 2;
+    if (diff <=  120) return 3;
+    if (diff <=  160) return 4;
+    if (diff <=  210) return 5;
+    if (diff <=  260) return 6;
+    if (diff <=  310) return 7;
+    if (diff <=  360) return 8;
+    if (diff <=  420) return 9;
+    if (diff <=  490) return 10;
+    if (diff <=  590) return 11;
+    if (diff <=  740) return 12;
+    if (diff <=  890) return 13;
+    if (diff <= 1090) return 14;
+    if (diff <= 1290) return 15;
+    if (diff <= 1490) return 16;
+    if (diff <= 1740) return 17;
+    if (diff <= 1990) return 18;
+    if (diff <= 2240) return 19;
+    if (diff <= 2490) return 20;
+    if (diff <= 2740) return 21;
+    if (diff <= 2990) return 22;
+    if (diff <= 3240) return 23;
+    if (diff <= 3490) return 24;
+    return 25;
+}
+
+// ── Mouvement selon numéro de donne ─────────────────────────────────────────
+function mouvementPourDonne(n) {
+    if (n <=  7) return 1;
+    if (n <= 14) return 2;
+    return 3;
+}
+
+// ── Libellés des colonnes EBL selon le mouvement ────────────────────────────
+function libellesEbl(mvnt) {
+    if (mvnt === 1) return ['Éq 1&4', 'Éq 2&3'];
+    if (mvnt === 2) return ['Éq 1&2', 'Éq 3&4'];
+    return               ['Éq 1&3', 'Éq 2&4'];
+}
+
+// ── Calcul EBL pour une paire de lignes T1+T2 ───────────────────────────────
+function calculerEblPaire(lignes, mvnt) {
+    const get = (field, eq) => {
+        const l = lignes.find(l => l[field] == eq);
+        return l ? parseInt(l[field === 'equipeNS' ? 'pointsNS' : 'pointsEO'] || 0) : 0;
+    };
+    let recap1, recap2;
+    if (mvnt === 1) {
+        recap1 = (lignes.find(l=>l.equipeNS==1)?.pointsNS||0)*1 + (lignes.find(l=>l.equipeEO==4)?.pointsEO||0)*1;
+        recap2 = (lignes.find(l=>l.equipeNS==3)?.pointsNS||0)*1 + (lignes.find(l=>l.equipeEO==2)?.pointsEO||0)*1;
+    } else if (mvnt === 2) {
+        recap1 = (lignes.find(l=>l.equipeNS==1)?.pointsNS||0)*1 + (lignes.find(l=>l.equipeEO==2)?.pointsEO||0)*1;
+        recap2 = (lignes.find(l=>l.equipeNS==4)?.pointsNS||0)*1 + (lignes.find(l=>l.equipeEO==3)?.pointsEO||0)*1;
+    } else {
+        recap1 = (lignes.find(l=>l.equipeNS==1)?.pointsNS||0)*1 + (lignes.find(l=>l.equipeEO==3)?.pointsEO||0)*1;
+        recap2 = (lignes.find(l=>l.equipeNS==2)?.pointsNS||0)*1 + (lignes.find(l=>l.equipeEO==4)?.pointsEO||0)*1;
+    }
+    const diff = recap1 - recap2;
+    const ebl1 = diff > 0 ? pointsVersEbl(diff) : 0;
+    const ebl2 = diff < 0 ? pointsVersEbl(-diff) : 0;
+    return [ebl1, ebl2];
+}
+
+function retourListe() {
+    if (tokenPublic) { window.history.back(); return; }
+    window.location.href = 'resultats.html?token=' + token;
+}
+
+function formatPts(v) {
+    const n = parseFloat(v) || 0;
+    return Number.isInteger(n) ? String(n) : n.toFixed(1).replace('.', ',');
+}
+function formatPct(v) {
+    const n = parseFloat(v) || 0;
+    if (n === 0) return '';
+    return n.toFixed(1).replace('.', ',') + ' %';
+}
+
+function formatJoueurs(joueurs) {
+    if (!joueurs) return '—';
+    return joueurs.split('\n').map(j => {
+        const parts = j.trim().split(' ');
+        if (parts.length < 2) return j;
+        const prenom = parts[parts.length - 1];
+        const nom    = parts.slice(0, -1).join(' ');
+        return `${nom} ${prenom.charAt(0)}.`;
+    }).join('\n');
+}
+
+function formaterContrat(c) {
+    if (!c) return '—';
+    return c.replace(/P/g,'♠').replace(/C/g,'♥').replace(/K/g,'♦').replace(/T/g,'♣').replace(/S/g,' SA');
+}
+
+window.onload = async () => {
+    if (!idTournoi || (!token && !tokenPublic)) { window.location.href = 'resultats.html'; return; }
+    await chargerTournoi();
+};
+
+async function chargerTournoi() {
+    try {
+        const url = tokenPublic
+            ? `api_public.php?action=tournoi&tokenPublic=${tokenPublic}&id=${idTournoi}`
+            : `api_adherent.php?action=tournoi&id=${idTournoi}&token=${token}`;
+        console.log('🔍 chargerTournoi URL:', url);
+        const resp = await fetch(url);
+        const data = await resp.json();
+        console.log('📦 data reçu:', JSON.stringify(data).substring(0, 500));
+
+        if (data.etat === 'TOKEN_INVALIDE' || data.etat === 'NON_CONNECTE') {
+            document.getElementById('msg-reconnexion').style.display = 'block';
+            document.getElementById('tournoi-info').innerHTML = '';
+            return;
+        }
+        if (data.etat !== 'OK') {
+            document.getElementById('tournoi-info').innerHTML = '<div class="chargement">❌ Tournoi introuvable</div>';
+            return;
+        }
+
+        donnesData  = data.donnes  || [];
+        equipesData = data.equipes || [];
+        typeTournoi = data.type    || '';
+
+        document.getElementById('header-titre').textContent = `🃏 N°${data.id} — ${data.date}`;
+        document.getElementById('tournoi-info').innerHTML = `
+            <span>📅 <strong>${data.date}</strong></span>
+            <span>🃏 <strong>${data.type.replace(/_/g,' ')}</strong></span>
+            <span>👥 <strong>${data.nbre_equipe} équipes</strong></span>
+            <span>📋 <strong>${donnesData.length} donnes</strong></span>
+        `;
+
+        if (typeTournoi === 'par4equ2t21d') {
+            afficherDonnesPar4();
+        } else {
+            afficherDonnes();
+        }
+        afficherClassement(data.classement, data.equipes);
+
+        // Afficher le bon tableau par défaut
+        afficherOnglet('donnes', document.querySelector('.onglet.actif'));
+
+    } catch(e) {
+        console.error(e);
+        document.getElementById('tournoi-info').innerHTML = '<div class="chargement">❌ Erreur</div>';
+    }
+}
+
+// ════════════════════════════════════════════════════════════════════════════
+// Affichage tableau STANDARD
+// ════════════════════════════════════════════════════════════════════════════
+function afficherDonnes() {
+    const tbody = document.getElementById('tbody-donnes');
+    if (!donnesData.length) {
+        tbody.innerHTML = '<tr><td colspan="11" class="chargement">Aucune donne</td></tr>';
+        return;
+    }
+    tbody.innerHTML = '';
+    donnesData.forEach((d, idx) => {
+        const nsVuln  = d.vulnerable === 'NS' || d.vulnerable === 'T';
+        const eoVuln  = d.vulnerable === 'EO' || d.vulnerable === 'T';
+        const resText = (d.resultat_contrat === '=' || d.resultat_contrat === '0') ? 'égal' : `${d.resultat_contrat} ${d.nombre_pli}`;
+        const tr = document.createElement('tr');
+        tr.innerHTML = `
+            <td>${d.numero_donne}</td>
+            <td class="${nsVuln?'vulnerable':''}" style="white-space:pre-line">${formatJoueurs(d.ns_joueurs)}</td>
+            <td class="${eoVuln?'vulnerable':''}" style="white-space:pre-line">${formatJoueurs(d.eo_joueurs)}</td>
+            <td>${formaterContrat(d.contrat)}</td>
+            <td>${d.declarant||'—'}</td>
+            <td>${resText}</td>
+            <td>${d.carteEntame||'—'}</td>
+            <td>${d.pointsNS??0}</td>
+            <td>${d.pointsEO??0}</td>
+            <td>${formatPts(d.ptsNS||0)}</td>
+            <td>${formatPts(d.ptsEO||0)}</td>
+        `;
+        tr.onclick = () => ouvrirDonne(idx);
+        tbody.appendChild(tr);
+    });
+}
+
+// ════════════════════════════════════════════════════════════════════════════
+// Affichage tableau PAR4EQU2T21D
+// Structure :
+//   ─ Ligne bleue "Mouvement N | Éq X&Y | Éq Z&W"
+//   ─ Pour chaque donne :  ligne T1 + ligne T2 + cellule EBL rowspan=2
+//   ─ Ligne total mouvement (bleue claire)
+// ════════════════════════════════════════════════════════════════════════════
+function afficherDonnesPar4() {
+    const tbody = document.getElementById('tbody-par4');
+    tbody.innerHTML = '';
+
+    // Grouper par mouvement puis par donne
+    const parMvnt = {};
+    donnesData.forEach(d => {
+        const mvnt = mouvementPourDonne(d.numero_donne);
+        if (!parMvnt[mvnt]) parMvnt[mvnt] = {};
+        const n = d.numero_donne;
+        if (!parMvnt[mvnt][n]) parMvnt[mvnt][n] = [];
+        parMvnt[mvnt][n].push(d);
+    });
+
+    [1, 2, 3].forEach(mvnt => {
+        const donnesParDonne = parMvnt[mvnt];
+        if (!donnesParDonne) return;
+
+        const [lib1, lib2] = libellesEbl(mvnt);
+
+        // ── Ligne séparatrice de mouvement ──────────────────────────────
+        const trSep = document.createElement('tr');
+        trSep.className = 'sep-mvnt';
+        trSep.innerHTML = `
+            <td colspan="10" style="text-align:left;padding-left:8px">Mouvement ${mvnt}</td>
+            <td class="libelle-ebl">${lib1}</td>
+            <td class="libelle-ebl">${lib2}</td>
+        `;
+        tbody.appendChild(trSep);
+
+        let totalEbl1 = 0, totalEbl2 = 0;
+
+        // ── Lignes de donnes ─────────────────────────────────────────────
+        const numerosTriés = Object.keys(donnesParDonne).map(Number).sort((a,b)=>a-b);
+        numerosTriés.forEach(numDonne => {
+            const paire = donnesParDonne[numDonne];
+            const t1 = paire.find(l => l.numero_table == 1) || paire[0];
+            const t2 = paire.find(l => l.numero_table == 2) || paire[1];
+
+            const [ebl1, ebl2] = calculerEblPaire(paire, mvnt);
+            totalEbl1 += ebl1;
+            totalEbl2 += ebl2;
+
+            const mkRes = (d) => {
+                if (!d) return '—';
+                return (d.resultat_contrat === '=' || d.resultat_contrat === '0') ? 'égal' : `${d.resultat_contrat} ${d.nombre_pli}`;
+            };
+
+            const nsVuln1 = t1 && (t1.vulnerable === 'NS' || t1.vulnerable === 'T');
+            const eoVuln1 = t1 && (t1.vulnerable === 'EO' || t1.vulnerable === 'T');
+            const nsVuln2 = t2 && (t2.vulnerable === 'NS' || t2.vulnerable === 'T');
+            const eoVuln2 = t2 && (t2.vulnerable === 'EO' || t2.vulnerable === 'T');
+
+            // Ligne T1
+            const trT1 = document.createElement('tr');
+            trT1.className = 'ligne-t1';
+            trT1.innerHTML = `
+                <td rowspan="2">${numDonne}</td>
+                <td>T1</td>
+                <td class="${nsVuln1?'vulnerable':''}">${t1 ? 'Éq '+t1.equipeNS : '—'}</td>
+                <td class="${eoVuln1?'vulnerable':''}">${t1 ? 'Éq '+t1.equipeEO : '—'}</td>
+                <td>${t1 ? formaterContrat(t1.contrat) : '—'}</td>
+                <td>${t1 ? (t1.declarant||'—') : '—'}</td>
+                <td>${t1 ? mkRes(t1) : '—'}</td>
+                <td>${t1 ? (t1.carteEntame||'—') : '—'}</td>
+                <td>${t1 ? (t1.pointsNS??0) : '—'}</td>
+                <td>${t1 ? (t1.pointsEO??0) : '—'}</td>
+                <td class="ebl ${ebl1>0?'ebl-win':'ebl-zero'}" rowspan="2">${ebl1}</td>
+                <td class="ebl ${ebl2>0?'ebl-win':'ebl-zero'}" rowspan="2">${ebl2}</td>
+            `;
+            tbody.appendChild(trT1);
+
+            // Ligne T2
+            const trT2 = document.createElement('tr');
+            trT2.className = 'ligne-t2';
+            trT2.innerHTML = `
+                <td>T2</td>
+                <td class="${nsVuln2?'vulnerable':''}">${t2 ? 'Éq '+t2.equipeNS : '—'}</td>
+                <td class="${eoVuln2?'vulnerable':''}">${t2 ? 'Éq '+t2.equipeEO : '—'}</td>
+                <td>${t2 ? formaterContrat(t2.contrat) : '—'}</td>
+                <td>${t2 ? (t2.declarant||'—') : '—'}</td>
+                <td>${t2 ? mkRes(t2) : '—'}</td>
+                <td>${t2 ? (t2.carteEntame||'—') : '—'}</td>
+                <td>${t2 ? (t2.pointsNS??0) : '—'}</td>
+                <td>${t2 ? (t2.pointsEO??0) : '—'}</td>
+            `;
+            tbody.appendChild(trT2);
+        });
+
+        // ── Ligne total mouvement ────────────────────────────────────────
+        const trTotal = document.createElement('tr');
+        trTotal.className = 'total-mvnt';
+        trTotal.innerHTML = `
+            <td colspan="10" style="text-align:right;padding-right:8px">Total mouvement ${mvnt} →</td>
+            <td class="total-ebl">${totalEbl1}</td>
+            <td class="total-ebl">${totalEbl2}</td>
+        `;
+        tbody.appendChild(trTotal);
+    });
+}
+
+// ════════════════════════════════════════════════════════════════════════════
+// Classement
+// ════════════════════════════════════════════════════════════════════════════
+function afficherClassement(classement, equipes) {
+    const container = document.getElementById('contenu-classement');
+
+    if (!classement || !classement.length) {
+        container.innerHTML = '<div class="chargement">Aucun classement disponible</div>';
+        return;
+    }
+
+    const medailles = ['🥇','🥈','🥉'];
+    const mapEq = {};
+    (equipes||[]).forEach(e => {
+        const key = e.equipeNumero ?? e.numeroEquipe;
+        if (key !== undefined) mapEq[key] = e;
+    });
+
+    function ligneClassement(c, rang) {
+        const numEq = c.numeroEquipe ?? c.equipe_numero ?? c.equipeNumero;
+        const eq = mapEq[numEq];
+        const j1 = eq
+            ? `${eq.joueur1_nom || eq.joueur1Nom || ''} ${(eq.joueur1_prenom || eq.joueur1Prenom || '').charAt(0)}.`
+            : `Éq.${numEq}`;
+        const j2 = eq
+            ? ` & ${eq.joueur2_nom || eq.joueur2Nom || ''} ${(eq.joueur2_prenom || eq.joueur2Prenom || '').charAt(0)}.`
+            : '';
+        const pts = c.totalPts ?? c.pts ?? 0;
+        const med = medailles[rang-1] || '';
+        return `<tr class="${rang<=3?'rang-'+rang:''}">
+            <td>${med} ${rang}</td>
+            <td>${j1}${j2}</td>
+            <td style="font-weight:600;text-align:right">${formatPts(pts||0)}</td>
+            <td style="text-align:right;color:#888">${formatPct(c.scorePct||0)}</td>
+        </tr>`;
+    }
+
+    function tableauGroupe(titre, groupe) {
+        if (!groupe.length) return '';
+        let html = `<h3 style="margin:1rem 0 0.5rem;font-family:'Cormorant Garamond',serif;font-size:1.05rem;color:var(--vert)">${titre}</h3>`;
+        html += `<table class="classement"><thead><tr>
+            <th>Rang</th><th>Joueurs</th><th style="text-align:right">Points</th><th style="text-align:right">%</th>
+        </tr></thead><tbody>`;
+        groupe.forEach((c, i) => { html += ligneClassement(c, i + 1); });
+        html += '</tbody></table>';
+        return html;
+    }
+
+    if (typeTournoi === 'Mitchell' || typeTournoi === 'MitchellGueridon') {
+        const nsGroupe = classement
+            .filter(c => c.position === 'NS')
+            .sort((a, b) => (parseFloat(b.totalPts)||0) - (parseFloat(a.totalPts)||0));
+        const eoGroupe = classement
+            .filter(c => c.position === 'EO')
+            .sort((a, b) => (parseFloat(b.totalPts)||0) - (parseFloat(a.totalPts)||0));
+        container.innerHTML = tableauGroupe('🔵 Classement Nord-Sud', nsGroupe)
+                            + tableauGroupe('🔴 Classement Est-Ouest', eoGroupe);
+    } else {
+        let html = `<table class="classement"><thead><tr>
+            <th>Rang</th><th>Joueurs</th><th style="text-align:right">Points</th><th style="text-align:right">%</th>
+        </tr></thead><tbody>`;
+        classement.forEach(c => {
+            const rang = c.rang ?? 0;
+            html += ligneClassement(c, rang);
+        });
+        html += '</tbody></table>';
+        container.innerHTML = html;
+    }
+}
+
+// ════════════════════════════════════════════════════════════════════════════
+// Ouverture d'une donne (standard seulement)
+// ════════════════════════════════════════════════════════════════════════════
+function ouvrirDonne(idx) {
+    const d = donnesData[idx];
+    const urlDonne = tokenPublic
+        ? `api_public.php?action=donne&tokenPublic=${tokenPublic}&id=${idTournoi}&numeroDonne=${d.numero_donne}&equipeNS=${d.equipeNS}`
+        : `api_adherent.php?action=donne&id=${idTournoi}&numeroDonne=${d.numero_donne}&equipeNS=${d.equipeNS}&token=${token}`;
+    fetch(urlDonne)
+        .then(r => r.json())
+        .then(data => {
+            if (data.etat === 'OK') {
+                sessionStorage.setItem('donne', JSON.stringify({
+                    ...d, mains: data.mains, encheres: data.encheres,
+                    vulnerable: data.vulnerable, donneur: data.donneur,
+                    contrat: data.contrat, declarant: data.declarant,
+                    idTournoi, token
+                }));
+                window.location.href = 'affichage_donne.html';
+            } else if (data.etat === 'TOKEN_INVALIDE') {
+                document.getElementById('msg-reconnexion').style.display = 'block';
+            } else {
+                alert('Erreur : ' + data.etat);
+            }
+        })
+        .catch(() => alert('Erreur réseau'));
+}
+
+// ════════════════════════════════════════════════════════════════════════════
+// Onglets
+// ════════════════════════════════════════════════════════════════════════════
+function afficherOnglet(nom, btn) {
+    document.querySelectorAll('.onglet').forEach(o => o.classList.remove('actif'));
+    btn.classList.add('actif');
+
+    // Masquer tous les sections donnes
+    document.getElementById('section-donnes').style.display     = 'none';
+    document.getElementById('section-donnes-par4').style.display = 'none';
+    document.getElementById('section-classement').style.display  = 'none';
+
+    if (nom === 'donnes') {
+        if (typeTournoi === 'par4equ2t21d') {
+            document.getElementById('section-donnes-par4').style.display = 'block';
+        } else {
+            document.getElementById('section-donnes').style.display = 'block';
+        }
+    } else {
+        document.getElementById('section-classement').style.display = 'block';
+    }
+}
+</script>
+</body>
+</html>

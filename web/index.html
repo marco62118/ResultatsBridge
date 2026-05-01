@@ -1,0 +1,582 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ResultatsBridge – Gestion de tournois de bridge</title>
+    <link rel="icon" type="image/x-icon" href="https://resultats-bridge.alwaysdata.net/favicon.ico">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Source+Sans+3:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <!-- Si index.html est à la racine et style.css aussi : href="style.css"      -->
+    <!-- Si index.html est dans /asso/ comme les autres  : href="../style.css"    -->
+</head>
+<body>
+
+<!-- ══ HEADER ══ -->
+<header>
+    <div class="header-inner">
+        <div class="suits">
+            ♠ <span class="suit-r">♥</span> <span class="suit-r">♦</span> ♣
+        </div>
+        <h1>Résultats<em>Bridge</em></h1>
+        <p class="tagline suit-b">La gestion moderne de votre club de bridge</p>
+        <p class="sub suit-b">Un simple smartphone Android comme boîtier de marque aux tables de tournoi de Bridge</p>
+    </div>
+</header>
+
+<!-- ══ NAVIGATION ONGLETS ══ -->
+<nav class="tab-nav" role="navigation" aria-label="Sections du site">
+    <ul>
+        <li><a href="#" data-tab="presentation" class="active">🃏 Présentation</a></li>
+        <li><a href="#" data-tab="deroulement">📋 Déroulement</a></li>
+        <li><a href="#" data-tab="clubs">🏛 Clubs</a></li>
+        <li><a href="#" data-tab="adherents">👤 Adhérents</a></li>
+        <li><a href="#" data-tab="telechargement">📱 Application</a></li>
+        <li><a href="#" data-tab="informations">ℹ️ Informations</a></li>
+    </ul>
+</nav>
+
+<!-- ════════════════════════════════════════════
+     ONGLET 1 – PRÉSENTATION
+     ════════════════════════════════════════════ -->
+<section id="presentation" class="page-section active">
+
+    <h2 class="anim">Présentation générale</h2>
+    <p class="anim anim-d1">
+        <strong>ResultatsBridge</strong> Un véritable boitier de marque sur les tables de tournoi de bridge dans un seul smartphone par
+        table <br>
+		Pas de matériel coûteux, pas d'installation complexe.
+    </p>
+    <p class="anim anim-d2">
+        L'application fonctionne sur tout smartphone Android (version 6 minimum) et couvre l'ensemble
+        du cycle de vie d'un tournoi : constitution des équipes, choix du type de tournoi, suivi des mouvements, enregistrement
+        des donnes, calcul automatique du classement et consultation des résultats en local ou en ligne.
+    </p>
+
+    <!-- Fonctionnalités : liste compacte, pas de gros blocs cliquables -->
+    <div class="foncs-liste anim">
+        <div class="fonc-item">
+            <span class="ico">🏆</span>
+            <span><strong>Classement automatique :</strong> calculé et affiché immédiatement et automatiquement en fin de tournoi.</span>
+        </div>
+        <div class="fonc-item">
+            <span class="ico">🃏</span>
+            <span><strong>Saisie pédagogique :</strong> mains saisies une seule fois et enchères enregidtrées donne par donne pour analyse après tournoi.</span>
+        </div>
+        <div class="fonc-item">
+            <span class="ico">📡</span>
+            <span><strong>Local ou en ligne :</strong> mode Wi-Fi interne sans Internet, ou mode en ligne. </span>
+        </div>
+        <div class="fonc-item">
+            <span class="ico">📤</span>
+            <span><strong>Export en un clic :</strong> l'organisateur publie le tournoi sur le serveur en ligne directement depuis l'application.</span>
+        </div>
+		<div class="fonc-item">
+            <span class="ico">🏛</span>
+            <span><strong>Espace club :</strong> classements, résultats détaillés de chaque donne, de chaque équipe consultables pour tous les tournois exportés.</span>
+        </div>
+        
+    </div>
+
+    
+
+</section>
+
+<!-- ════════════════════════════════════════════
+     ONGLET 2 – DÉROULEMENT
+     ════════════════════════════════════════════ -->
+<section id="deroulement" class="page-section">
+
+    <h2 class="anim">Modes de fonctionnement</h2>
+	<div class="foncs-liste anim">
+        <div class="fonc-item">             
+            <span class="ico">📡</span>
+			<span><strong>Mode local Wi-Fi : </strong>           
+            L'<strong>Organisateur</strong> crée un point d'accès Wi-Fi sur son smartphone 
+			ou utilise un réseau Wi-Fi présent. Les joueurs s'y connectent et saisissent l'adresse IP 
+			communiquée par l'<strong>Organisateur</strong>. <strong>Aucun Internet requis.</strong> 
+			Export vers le serveur possible en fin de tournoi.</span>
+        </div>
+        <div class="fonc-item">
+            <span class="ico">🌐 </span>
+            <span><strong>Mode en ligne : </strong>
+			L'<strong>Organisateur</strong> crée le tournoi directement sur le serveur. Les saisies sont envoyées en temps réel vers le serveur. Résultats accessibles immédiatement par les adhérents.</span>
+        </div>    
+    </div>
+	
+	<h2 class="anim">Préparation d'un tournoi</h2>
+    <p class="anim">
+        L'<strong>Organisateur</strong> configure le tournoi depuis son smartphone : nombre d'équipes,
+        de tables, de donnes par table et de type le tournoi. 
+    </p>
+
+    <h3 class="anim">Types de tournois supportés</h3>
+    <ul class="liste anim">
+        <li>Tournois par 4 équipes sur 2 tables</li>
+        <li>Tournois « Howell » avec ou sans table relais</li>
+        <li>Tournois « Mitchell »</li>
+    </ul>
+	
+	<p> Tous les mouvements sont préétablis et toutes informations nécessaires sont affichées 
+	sur chaque smartphone de table, assurant le bon déroulement.</p>
+	
+    <p class="anim">
+        Les équipes sont constituées rapidement depuis la liste des adhérents enregistrés. L'ajout
+        de nouveaux joueurs est possible avant le lancement. L'<strong>Organisateur</strong> peut lui-même participer
+        au tournoi depuis son propre smartphone.
+    </p>
+
+    <div class="note anim">
+        <strong>Table relais :</strong> lorsqu'une table relais existe (tournoi Howell), l'application
+        le signale et invite les joueurs à saisir les mains des donnes non jouées — un gain de temps
+        précieux pour les autres tables.
+    </div>
+
+	
+    <h2>Déroulement du Tournoi</h2>
+    <p>
+        À chaque table, un seul des joueurs — le <strong>marqueur</strong> — manipule le smartphone.<br>
+        Il ouvre l'application, sélectionne son équipe, et vérifie : équipe adverse, numéro de table,
+        donnes à jouer.<br>
+		La partie peut commencer.
+    </p>
+
+    <div class="etapes">
+
+        <div class="etape">
+            <div class="etape-num"></div>
+            <div class="etape-corps">
+                <h3>Saisie des enchères</h3>
+                <p>A la fin des enchères, le <strong>marqueur</strong>, en commençant par Nord, enregistre toutes ses enchères (pass, 1C, pass) puis Est (pass, pass, pass) puis Sud (1T, 1SA, pass) Ouest( pass, pass, pass).
+                Le contrat final s'affiche automatiquement.</p>
+                <div class="note bleu">
+                    💡 si vous ne souhaitez pas saisir le détail des enchères, vous pouvez entrer directement le contrat final
+					⚠️ vous perdrez cependant la comparaison inter-tables.
+                </div>
+            </div>
+        </div>
+
+        <div class="etape">
+            <div class="etape-num"></div>
+            <div class="etape-corps">
+                <h3>Carte d'entame</h3>
+                <p>L'entameur pose sa première carte. Le <strong>marqueur</strong> la saisit immédiatement<br>
+                 ⚠️ étape obligatoire pour pouvoir enregistrer les résultats et continuer le tournoi.</p>
+            </div>
+        </div>
+
+        <div class="etape">
+            <div class="etape-num"></div>
+            <div class="etape-corps">
+                <h3>Saisie des résultats</h3>
+                <p>La donne terminée, clic sur 
+				<button style="
+					background: #6750A4;
+					color: white;
+					border: none;
+					border-radius: 50px;
+					padding: 2px 4px;
+					font-size: 0.85rem;
+					font-weight: 600;
+					cursor: pointer;
+					letter-spacing: 0.03em;
+				">Résultats ?</button>
+				. Un résultat par défaut (= 0) s'affiche avec les points. Le <strong>marqueur</strong> modifie le résultat si nécessaire<br>
+				Les points sont recalculés automatiquement. ⚠️ Un résultat incohérent (= 1 ou + 0) bloque l'affichage des points.</p>
+            </div>
+        </div>
+
+        <div class="etape">
+            <div class="etape-num"></div>
+            <div class="etape-corps">
+                <h3>Vérification des mains</h3>
+                <p>Clic sur 
+				<button style="
+					background: #6750A4;
+					color: white;
+					border: none;
+					border-radius: 50px;
+					padding: 2px 4px;
+					font-size: 0.85rem;
+					font-weight: 600;
+					cursor: pointer;
+					letter-spacing: 0.03em;
+				">Afficher les mains</button> pour s'assurer que tout le monde a joué les mêmes cartes (contrôle des étuis).</p>
+                <ul class="liste vert">
+                    <li>Si une autre table a déjà saisi les mains, une vérification sommaire suffit.</li>
+                    <li>Sinon : saisie des cartes de Nord → Est → Sud. Les 13 cartes restantes vont à Ouest automatiquement.</li>
+                    <li>⚠️ Sans saisie des mains : pas de comparaison inter-tables possible après le tournoi.</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="etape">
+            <div class="etape-num"></div>
+            <div class="etape-corps">
+                <h3>Donne suivante</h3>
+                <p>Le clic sur
+				<button style="
+					background: #6750A4;
+					color: white;
+					border: none;
+					border-radius: 50px;
+					padding: 2px 4px;
+					font-size: 0.85rem;
+					font-weight: 600;
+					cursor: pointer;
+					letter-spacing: 0.03em;
+				">Donne suivante</button> enregistre tout définitivement sur le serveur.
+                Continuer ainsi jusqu'à la dernière donne de la table.</p>
+            </div>
+        </div>
+
+        <div class="etape">
+            <div class="etape-num"></div>
+            <div class="etape-corps">
+                <h3>Changement de mouvement</h3>
+                <p>À la dernière donne, l'écran « Changement de mouvement » indique la prochaine
+                table et l'adversaire à rencontrer.</p>
+                <div class="note bleu">
+                    ⏳ Attendre le feu vert de l'<strong>Organisateur</strong> avant de changer de table. 
+                </div>
+            </div>
+        </div>
+
+        <div class="etape">
+            <div class="etape-num"></div>
+            <div class="etape-corps">
+                <h3>Fin de tournoi et classement</h3>
+                <p>Au dernier mouvement, dès que toutes les équipes ont enregistré leurs donnes, le classement est calculé
+                automatiquement et affiché sur tous les smartphones connectés.</p>
+				<p>Le clic sur
+				<button style="
+					background: #6750A4;
+					color: white;
+					border: none;
+					border-radius: 50px;
+					padding: 2px 4px;
+					font-size: 0.85rem;
+					font-weight: 600;
+					cursor: pointer;
+					letter-spacing: 0.03em;
+				">Voir le détail des donnes</button> 
+                <p>Un tableau détaillé liste toutes les donnes jouées par chaque équipe. En cliquant sur une ligne,
+                on visualise les 4 mains et les enchères des deux équipes, si les saisies ont été effectuées.</p>
+                <p>L'<strong>Organisateur</strong> peut ensuite <strong>exporter le tournoi</strong> vers le serveur
+                en ligne en un seul clic.</p>
+            </div>
+        </div>
+
+    </div>
+
+</section>
+
+<!-- ════════════════════════════════════════════
+     ONGLET 3 – ESPACE CLUBS
+     ════════════════════════════════════════════ -->
+<section id="clubs" class="page-section">
+
+    <h2>Espace Clubs</h2>
+    <p>Le club dispose d'un espace dédié sur la plateforme. Le responsable du club gère les adhérents, et contrôle les accès.</p>
+
+    <div class="note or">
+        🔑 un <strong>CODE D'INVITATION </strong>est requis. Pour créer le compte du club, vous devez
+        disposer d'un CODE D'INVITATION fourni par l'administrateur de la plateforme.
+    </div>
+
+    <div class="acces-grid">
+        <div class="acces-card">
+            <span class="icone">✍️ </span><span><strong> Inscrire mon club</strong></span>
+            <p>Créez le compte de votre club avec votre CODE D'INVITATION.</p>
+            <a href="https://resultats-bridge.alwaysdata.net/asso/inscription.html" class="btn btn-bleu">
+                Inscrire mon club
+            </a>
+        </div>
+        <div class="acces-card">
+            <span class="icone">⚙️</span><span><strong>Gérer mon club</strong></span>
+            <p>Administrez vos adhérents et leur accès</p>
+            <a href="https://resultats-bridge.alwaysdata.net/asso/mon_compte.html" class="btn btn-vert">
+                Mon compte club
+            </a>
+        </div>
+    </div>
+
+</section>
+
+<!-- ════════════════════════════════════════════
+     ONGLET 4 – ADHÉRENTS
+     ════════════════════════════════════════════ -->
+<section id="adherents" class="page-section">
+
+    <h2>Espace Adhérents</h2>
+    <p>Chaque membre du club peut créer un compte personnel pour consulter les résultats
+    de tous les tournois publiés par son club.</p>
+
+    <div class="note bleu">
+        🔑 un <strong>CODE ADHÉRENT </strong>est requis. Votre club vous remet un CODE ADHÉRENT lors de
+        votre inscription. Utilisez-le pour créer votre compte avec votre propre mot de passe.
+    </div>
+
+    <div class="acces-grid">
+        <div class="acces-card">
+            <span class="icone">👤</span><span><strong>Créer mon compte</strong></span>
+            <p>Inscrivez-vous avec le CODE ADHÉRENT fourni par votre club.</p>
+            <a href="https://resultats-bridge.alwaysdata.net/asso/inscription_adherent.html" class="btn btn-bleu">
+                Créer mon compte
+            </a>
+        </div>
+        <div class="acces-card">
+            <span class="icone">🏆</span><span><strong>Mes résultats</strong></span>
+            <p>Consulter classements et détails de tous les tournois.</p>
+            <a href="https://resultats-bridge.alwaysdata.net/asso/resultats.html" class="btn btn-vert">
+                Consulter les résultats
+            </a>
+        </div>
+    </div>
+
+    <div class="note">
+        🎓 <strong>Intérêt pédagogique :</strong> comparer vos enchères
+        aux autres tables, analyser les contrats — un outil précieux pour progresser au bridge.
+    </div>
+
+</section>
+
+<!-- ════════════════════════════════════════════
+     ONGLET 5 – APPLICATION / TÉLÉCHARGEMENT
+     ════════════════════════════════════════════ -->
+<section id="telechargement" class="page-section">
+
+    <h2>Télécharger l'application</h2>
+    <p>ResultatsBridge est une application Android. Elle doit être installée sur le
+    smartphone de l'<strong>Organisateur</strong> et sur celui du <strong>marqueur</strong> de chaque table.</p>
+
+    <div class="dl-box">
+        <span class="app-icon">📱</span><span><strong> ResultatsBridge pour Android </strong></span>
+        <p class="version">Android 6.0 minimum.</p>
+
+        <!--
+            Quand l'APK est prêt, remplacer le bloc dl-placeholder par :
+            <a href="resultatsbridge.apk" class="btn btn-vert">⬇ Télécharger l'APK</a>
+        -->
+        <div class="dl-placeholder">
+            ⏳ Le lien de téléchargement sera disponible prochainement.
+        </div>
+
+        <div class="dl-requisits">
+            <strong>Prérequis :</strong><br>
+            • Smartphone Android 6.0 ou supérieur<br>
+            • Autoriser l'installation depuis des sources inconnues (une seule fois)<br>
+            • Réseau Wi-Fi commun entre toutes les tables (local ou Internet)
+        </div>
+    </div>
+
+    <h2>Comment installer l'application ?</h2>
+    <div class="etapes">
+        <div class="etape">
+            <div class="etape-num"></div>
+            <div class="etape-corps">
+                <h3>Télécharger le fichier APK</h3>
+                <p>Cliquez sur le bouton de téléchargement ci-dessus depuis votre smartphone Android.</p>
+            </div>
+        </div>
+        <div class="etape">
+            <div class="etape-num"></div>
+            <div class="etape-corps">
+                <h3>Autoriser l'installation</h3>
+                <p>Android vous demandera d'autoriser l'installation depuis votre navigateur.
+                Acceptez — cette étape n'est nécessaire qu'une seule fois.</p>
+            </div>
+        </div>
+        <div class="etape">
+            <div class="etape-num"></div>
+            <div class="etape-corps">
+                <h3>Installer et lancer</h3>
+                <p>Ouvrez le fichier téléchargé et suivez les instructions. L'installation prend
+                moins d'une minute.</p>
+            </div>
+        </div>
+        <div class="etape">
+            <div class="etape-num"></div>
+            <div class="etape-corps">
+                <h3>Configurer le réseau</h3>
+                <p><strong>Organisateur :</strong> créez ou ouvrez un tournoi — l'adresse IP s'affiche.<br>
+                <strong>Marqueurs de table :</strong> connectez-vous au même réseau Wi-Fi et saisissez
+                cette adresse IP.</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="note or">
+        ❓ <strong>Problème d'installation ?</strong> Si « Application bloquée » apparaît, allez dans
+        <em>Paramètres → Sécurité → Sources inconnues</em> et activez l'option.
+        Cette manipulation n'est nécessaire qu'une seule fois.
+    </div>
+
+</section>
+
+<!-- ════════════════════════════════════════════
+     ONGLET 6 – INFORMATIONS (CORRIGÉ)
+     ════════════════════════════════════════════ -->
+<section id="informations" class="page-section">
+
+    <!-- SECTION 1 — POINTS MATCH -->
+    <h2>1. Points Match (PM)</h2>
+    <div class="carte">
+        <p>Les Points de Match (PM) servent à classer les résultats de manière relative : on ne compte pas l'écart de points au score, mais le nombre d'<strong>équipes</strong> que l'on a battues sur une même donne.</p>
+        
+        <h3>Grille de calcul des PM</h3>
+        <table border="1" style="border-collapse: collapse; width: 100%; text-align: left;">
+            <thead>
+                <tr style="background-color: #f2f2f2;">
+                    <th style="padding: 8px;">Comparaison du score</th>
+                    <th style="padding: 8px;">Points attribués (PM)</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr><td style="padding: 8px;">Votre score est <strong>supérieur</strong> à celui d'une autre équipe</td><td style="padding: 8px;">2 PM</td></tr>
+                <tr><td style="padding: 8px;">Votre score est <strong>égal</strong> à celui d'une autre équipe (partage)</td><td style="padding: 8px;">1 PM</td></tr>
+                <tr><td style="padding: 8px;">Votre score est <strong>inférieur</strong> à celui d'une autre équipe</td><td style="padding: 8px;">0 PM</td></tr>
+            </tbody>
+        </table>
+
+        <h3>Le Top par donne</h3>
+        <p>Le <strong>Top</strong> est le score maximum qu'une équipe peut obtenir sur une donne jouée <em>n</em> fois.</p>
+        <div class="formule" style="background: #eee; padding: 10px; border-radius: 5px; font-weight: bold; text-align: center;">
+            Top = 2 × (n − 1)
+        </div>
+        <ul style="margin-top: 10px;">
+            <li>Donne jouée 2 fois : Top = 2 PM</li>
+            <li>Donne jouée 3 fois : Top = 4 PM</li>
+        </ul>
+    </div>
+
+    <!-- SECTION 2 — POINTS NEUBERG -->
+    <h2>2. Points Neuberg (Ajustement)</h2>
+    <div class="carte">
+        <p>La formule de Neuberg corrige les déséquilibres lorsqu'une donne n'a pas été jouée le même nombre de fois par toutes les équipes (en raison d'un relais ou d'un incident).</p>
+
+        <div class="formule" style="background: #eee; padding: 10px; border-radius: 5px; font-weight: bold; text-align: center;">
+            PM ajusté = [ ( (PM obtenu + 1) × N ) / (n + 1) ] − 1
+        </div>
+        <p style="font-size: 0.9rem; margin-top: 5px;">
+            <strong>N</strong> : Nombre de fois maximum où la donne a été jouée dans le tournoi.<br>
+            <strong>n</strong> : Nombre de fois effectif où cette donne spécifique a été jouée.
+        </p>
+
+        <h3>Exemple d'ajustement (Base N = 6)</h3>
+        <table border="1" style="border-collapse: collapse; width: 100%; text-align: center;">
+            <thead>
+                <tr style="background-color: #f2f2f2;">
+                    <th style="padding: 8px;">n (fois jouées)</th>
+                    <th style="padding: 8px;">PM réel obtenu</th>
+                    <th style="padding: 8px;">PM après Neuberg</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr><td style="padding: 8px;">6 (complet)</td><td style="padding: 8px;">8</td><td style="padding: 8px;"><strong>8,00</strong></td></tr>
+                <tr><td style="padding: 8px;">4</td><td style="padding: 8px;">7</td><td style="padding: 8px;"><strong>11,00</strong></td></tr>
+                <tr><td style="padding: 8px;">3</td><td style="padding: 8px;">2</td><td style="padding: 8px;"><strong>5,00</strong></td></tr>
+                <tr><td style="padding: 8px;">3</td><td style="padding: 8px;">0</td><td style="padding: 8px;"><strong>1,00</strong></td></tr>
+            </tbody>
+        </table>
+    </div>
+
+   
+
+    <!-- SECTION 3 — MITCHELL AVEC SKIP -->
+    <h2>3. Mitchell avec Skip (Nombre de tables pair)</h2>
+    <div class="carte">
+        <h3>Le problème de la symétrie</h3>
+        <p>Dans un Mitchell standard à nombre de tables pair (ex: 4, 6, 8), les équipes Est-Ouest finiraient par rejouer les mêmes donnes à mi-parcours.</p>
+
+        <h3>La solution du saut (Skip)</h3>
+        <p>Après la moitié des mouvements, les équipes Est-Ouest effectuent un <strong>saut</strong> en ignorant la table suivante (+2 tables au lieu de +1). Cela casse la symétrie et évite les doublons.</p>
+        
+        <table border="1" style="border-collapse: collapse; width: 100%; text-align: left; margin-top: 15px;">
+            <thead>
+                <tr style="background-color: #f2f2f2;">
+                    <th style="padding: 10px;">Avantage</th>
+                    <th style="padding: 10px;">Inconvénient</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td style="padding: 10px;">Mouvement simple et rapide.</td>
+                    <td style="padding: 10px;">Les équipes EO jouent un set de donnes en moins (une rencontre de moins).</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+ <!-- SECTION 3 — MITCHELL AVEC GUÉRIDON -->
+    <h2>3. Tournoi Mitchell avec Guéridon</h2>
+    <div class="carte">
+        <h3>Le rôle du Guéridon</h3>
+        <p>Le guéridon désigne l'emplacement où un <strong>set de donnes n'est pas joué</strong> durant une ronde. C'est associé avec un partage de set de donnes entre 2 tables. Ce système permet de gérer un nombre de tables pair sans avoir recours au "Skip" (saut de table) et donc de jouer tous le même nombre de donnes.</p>
+        
+        <h3>Fonctionnement du partage et du repos</h3>
+        <table border="1" style="border-collapse: collapse; width: 100%; text-align: left;">
+            <thead>
+                <tr style="background-color: #f2f2f2;">
+                    <th style="padding: 8px;">Élément</th>
+                    <th style="padding: 8px;">Règle de mouvement</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td style="padding: 8px;"><strong>Le Partage</strong></td>
+                    <td style="padding: 8px;">La table 1 et la dernière table jouent simultanément le même set de donnes et se les échangent pendant la ronde.</td>
+                </tr>
+                <tr>
+                    <td style="padding: 8px;"><strong>Le Guéridon</strong></td>
+                    <td style="padding: 8px;">Contient le set de donnes qui n'est pas joué par personne pendant la ronde actuelle. Il sert de zone de transit pour la rotation suivante.</td>
+                </tr>
+                <tr>
+                    <td style="padding: 8px;"><strong>Équipes EO</strong></td>
+                    <td style="padding: 8px;">Se déplacent normalement d'une table vers le haut à chaque ronde.</td>
+                </tr>
+				<tr>
+                    <td style="padding: 8px;"><strong>Les set de donnes</strong></td>
+                    <td style="padding: 8px;">Se déplacent normalement d'une table vers le bas à chaque ronde, table Guéridon compris.</td>
+                </tr>
+                <tr>
+                    <td style="padding: 8px;"><strong>Équipes NS</strong></td>
+                    <td style="padding: 8px;">Restent fixes à leur table.</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h3>Avantages du système</h3>
+        <ul>
+            <li>Permet de jouer <strong>toutes les rondes</strong> (pas de perte de rencontre comme avec le Skip).</li>
+            <li>Garantit que les équipes EO ne rencontrent jamais deux fois les mêmes donnes.</li>
+            <li>Idéal pour intégrer une <strong>équipe "Relais"</strong> si le nombre total d'équipes est impair. La dernière table sera la table Relais et la table 1 ne sera plus obligée de partager son set de donnes, la table relais ne jouant pas de donnes</li>
+        </ul>
+    </div> 
+
+<h2>4. Table Relais</h2>
+	<div class="note" style="margin-top: 15px; padding: 10px; background-color: #fff3cd; border-left: 5px solid #ffeeba;">
+		💡 <strong>Équipe Relais :</strong> Si le nombre total d'équipes est impair (ex: 7 équipes pour 4 tables), l'équipe EO arrivant à la place "Relais" ne joue pas pour la ronde. Dans ce cas en Mitchell les EO jouent un set de moins que les NS
+	</div>
+   
+
+
+</section>
+<!-- ══ FOOTER ══ -->
+<footer>
+    <p style="margin-bottom: 0px;">
+        <span class="suit-b"> ♠ </span><span class="suit-r"> ♥ </span><span class="suit-r"> ♦ </span><span class="suit-b"> ♣ </span> 
+        
+        <a href="https://resultats-bridge.alwaysdata.net/index.html"><span class="suit-b">&nbsp;·&nbsp; ResultatsBridge &nbsp;·&nbsp;</span></a>
+    </p>
+	<p class="suit-b" style="margin-bottom: 0px;"> Contact : resultats-bridge@alwaysdata.net </p>
+    <p class="suit-b" style="margin-top:5px; opacity:.55; font-size:.78rem;">
+        Application Android boitier de marque aux tables de tournoi de bridge 
+    </p>
+</footer>
+
+<script src="script.js"></script>
+<!-- Si index.html est dans /asso/ : <script src="../script.js"></script> -->
+</body>
+</html>

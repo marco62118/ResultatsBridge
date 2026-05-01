@@ -1,0 +1,486 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Résultats — Tournoi Bridge Online</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600;700&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --vert:    #1a472a;
+            --vert2:   #2d6a4f;
+            --or:      #c9a84c;
+            --or2:     #e8c96a;
+            --creme:   #f8f4ec;
+            --texte:   #1c1c1c;
+            --gris:    #6b6b6b;
+            --rouge:   #c0392b;
+            --blanc:   #ffffff;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'DM Sans', sans-serif;
+            background: var(--creme);
+            color: var(--texte);
+            min-height: 100vh;
+            background-image:
+                radial-gradient(ellipse at 10% 20%, rgba(26,71,42,0.05) 0%, transparent 50%),
+                radial-gradient(ellipse at 90% 80%, rgba(201,168,76,0.07) 0%, transparent 50%);
+        }
+
+        /* ── Header ── */
+        .header {
+            background: var(--vert);
+            color: white;
+            padding: 1.2rem 2rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.15);
+        }
+
+        .header-titre {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.5rem;
+            font-weight: 600;
+            letter-spacing: 0.02em;
+        }
+
+        .header-sous {
+            font-size: 0.8rem;
+            opacity: 0.7;
+            margin-top: 2px;
+        }
+
+        .btn-deconnexion {
+            background: rgba(255,255,255,0.15);
+            color: white;
+            border: 1px solid rgba(255,255,255,0.3);
+            padding: 0.4rem 1rem;
+            border-radius: 6px;
+            font-family: 'DM Sans', sans-serif;
+            font-size: 0.85rem;
+            cursor: pointer;
+            transition: background 0.2s;
+            text-decoration: none;
+        }
+
+        .btn-deconnexion:hover { background: rgba(255,255,255,0.25); }
+
+        /* ── Contenu principal ── */
+        .main { max-width: 800px; margin: 0 auto; padding: 2rem 1rem; }
+
+        /* ── Formulaire connexion ── */
+        .carte-connexion {
+            background: white;
+            border-radius: 16px;
+            padding: 2.5rem;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.04), 0 8px 32px rgba(26,71,42,0.08);
+            border: 1px solid rgba(201,168,76,0.2);
+            max-width: 440px;
+            margin: 3rem auto;
+        }
+
+        .connexion-titre {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.8rem;
+            color: var(--vert);
+            text-align: center;
+            margin-bottom: 0.3rem;
+        }
+
+        .connexion-sous {
+            text-align: center;
+            color: var(--gris);
+            font-size: 0.88rem;
+            margin-bottom: 2rem;
+        }
+
+        .groupe { margin-bottom: 1.2rem; }
+
+        label {
+            display: block;
+            font-size: 0.82rem;
+            font-weight: 500;
+            color: var(--vert);
+            margin-bottom: 0.4rem;
+            text-transform: uppercase;
+            letter-spacing: 0.04em;
+        }
+
+        input[type="email"],
+        input[type="text"],
+        input[type="password"] {
+            width: 100%;
+            padding: 0.8rem 1rem;
+            border: 1.5px solid #e0ddd6;
+            border-radius: 10px;
+            font-family: 'DM Sans', sans-serif;
+            font-size: 0.95rem;
+            color: var(--texte);
+            background: #fdfcfa;
+            outline: none;
+            transition: border-color 0.2s, box-shadow 0.2s;
+        }
+
+        input:focus {
+            border-color: var(--or);
+            box-shadow: 0 0 0 3px rgba(201,168,76,0.12);
+            background: white;
+        }
+
+        .btn-principal {
+            width: 100%;
+            padding: 0.9rem;
+            background: linear-gradient(135deg, var(--vert) 0%, var(--vert2) 100%);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-family: 'DM Sans', sans-serif;
+            font-size: 0.95rem;
+            font-weight: 500;
+            cursor: pointer;
+            margin-top: 0.5rem;
+            transition: transform 0.15s, box-shadow 0.15s;
+        }
+
+        .btn-principal:hover { transform: translateY(-1px); box-shadow: 0 4px 16px rgba(26,71,42,0.25); }
+        .btn-principal:disabled { opacity: 0.6; cursor: not-allowed; transform: none; }
+
+        .message-erreur {
+            background: #fdf2f2;
+            border: 1px solid #f5c6c6;
+            color: var(--rouge);
+            padding: 0.8rem 1rem;
+            border-radius: 8px;
+            font-size: 0.88rem;
+            margin-bottom: 1rem;
+            display: none;
+        }
+
+        /* ── Séparateur liens bas de carte ── */
+        .liens-bas {
+            margin-top: 1.2rem;
+            display: flex;
+            flex-direction: column;
+            gap: 0.6rem;
+        }
+
+        .sep-or {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .sep-or::before,
+        .sep-or::after {
+            content: '';
+            flex: 1;
+            height: 1px;
+            background: linear-gradient(to right, transparent, rgba(201,168,76,0.3), transparent);
+        }
+
+        .lien-discret {
+            font-size: 0.82rem;
+            color: var(--gris);
+            text-decoration: none;
+            white-space: nowrap;
+            transition: color 0.2s;
+        }
+
+        .lien-discret:hover { color: var(--vert); }
+
+        .lien-inscription {
+            text-align: center;
+            font-size: 0.85rem;
+            color: var(--gris);
+        }
+
+        .lien-inscription a {
+            color: var(--vert);
+            font-weight: 500;
+            text-decoration: none;
+        }
+
+        .lien-inscription a:hover { text-decoration: underline; }
+
+        /* ── Liste des tournois ── */
+        .section-titre {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.6rem;
+            color: var(--vert);
+            margin-bottom: 0.3rem;
+        }
+
+        .section-sous {
+            color: var(--gris);
+            font-size: 0.88rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .tournoi-card {
+            background: white;
+            border-radius: 12px;
+            padding: 1.2rem 1.5rem;
+            margin-bottom: 0.8rem;
+            border: 1px solid rgba(201,168,76,0.15);
+            box-shadow: 0 1px 4px rgba(0,0,0,0.04);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            cursor: pointer;
+            transition: transform 0.15s, box-shadow 0.15s, border-color 0.15s;
+            text-decoration: none;
+            color: inherit;
+        }
+
+        .tournoi-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 16px rgba(26,71,42,0.1);
+            border-color: rgba(201,168,76,0.4);
+        }
+
+        .tournoi-date {
+            font-size: 0.8rem;
+            color: var(--gris);
+            margin-bottom: 3px;
+        }
+
+        .tournoi-type {
+            font-weight: 500;
+            font-size: 1rem;
+            color: var(--texte);
+        }
+
+        .tournoi-badge {
+            background: rgba(26,71,42,0.08);
+            color: var(--vert);
+            font-size: 0.78rem;
+            font-weight: 500;
+            padding: 0.25rem 0.7rem;
+            border-radius: 20px;
+        }
+
+        .fleche { color: var(--or); font-size: 1.2rem; margin-left: 1rem; }
+
+        .aucun-tournoi {
+            text-align: center;
+            padding: 3rem;
+            color: var(--gris);
+            font-size: 0.95rem;
+        }
+
+        .chargement {
+            text-align: center;
+            padding: 2rem;
+            color: var(--gris);
+        }
+
+        #section-connexion { display: block; }
+        #section-tournois  { display: none; }
+    </style>
+</head>
+<body>
+
+<div class="header">
+    <div>
+        <div class="header-titre">🃏 Résultats Bridge Online</div>
+        <div class="header-sous">Consultation des résultats</div>
+    </div>
+    <a href="#" class="btn-deconnexion" id="btn-deco" onclick="deconnecter()" style="display:none">Déconnexion</a>
+</div>
+
+<div class="main">
+
+    <!-- ── Section connexion ── -->
+    <div id="section-connexion">
+        <div class="carte-connexion">
+            <div class="connexion-titre">Espace adhérent</div>
+            <p class="connexion-sous">Connectez-vous pour consulter les résultats de votre club</p>
+
+            <div id="msg-erreur" class="message-erreur"></div>
+
+            <div class="groupe">
+                <label for="email">Email</label>
+                <input type="email" id="email" autocomplete="email">
+            </div>
+            <div class="groupe">
+                <label for="mdp">Mot de passe</label>
+                <div style="position:relative">
+                    <input type="password" id="mdp" autocomplete="current-password"
+                        style="width:100%;box-sizing:border-box;padding-right:2.8rem;height:3rem;line-height:normal">
+                    <span onclick="toggleMdp('mdp',this)"
+                        style="position:absolute;right:0.75rem;top:0;bottom:0;display:flex;align-items:center;cursor:pointer;font-size:1.1rem;user-select:none">👁</span>
+                </div>
+            </div>
+
+            <button class="btn-principal" id="btn-connexion" onclick="seConnecter()">
+                Se connecter
+            </button>
+
+            <!-- ── Liens bas de carte ── -->
+            <div class="liens-bas">
+                <div class="sep-or">
+                    <a href="mdp_oublie_adherent.html" class="lien-discret">Mot de passe oublié ?</a>
+                </div>
+                <p class="lien-inscription">
+                    Pas encore de compte ?
+                    <a href="inscription_adherent.html">S'inscrire</a>
+                </p>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- ── Section tournois ── -->
+    <div id="section-tournois">
+        <div class="section-titre" id="titre-club">Mes tournois</div>
+        <p class="section-sous">Cliquez sur un tournoi pour voir le classement et les résultats</p>
+        <div id="liste-tournois">
+            <div class="chargement">Chargement...</div>
+        </div>
+    </div>
+
+</div>
+
+<script>
+function toggleMdp(id, btn) {
+    const input = document.getElementById(id);
+    const visible = input.getAttribute('data-visible') === '1';
+    if (visible) {
+        input.setAttribute('type', 'password');
+        input.setAttribute('data-visible', '0');
+        btn.textContent = '👁';
+    } else {
+        input.setAttribute('type', 'text');
+        input.setAttribute('data-visible', '1');
+        btn.textContent = '🙈';
+    }
+}
+
+let tokenAdherent = '';
+let idAssociation = 0;
+
+window.onload = async () => {
+    const params    = new URLSearchParams(window.location.search);
+    const tokenUrl  = params.get('token');
+    if (tokenUrl) {
+        try {
+            const resp = await fetch('api_adherent.php?action=tournois&token=' + tokenUrl);
+            const data = await resp.json();
+            if (data.etat === 'OK') {
+                tokenAdherent = tokenUrl;
+                document.getElementById('section-connexion').style.display = 'none';
+                document.getElementById('section-tournois').style.display  = 'block';
+                document.getElementById('btn-deco').style.display           = 'block';
+                afficherTournois(data.tournois);
+            }
+        } catch(e) {}
+    }
+};
+
+function afficherTournois(tournois) {
+    const container = document.getElementById('liste-tournois');
+    if (!tournois || tournois.length === 0) {
+        container.innerHTML = '<div class="aucun-tournoi">🃏 Aucun tournoi terminé pour l\'instant</div>';
+        return;
+    }
+    container.innerHTML = '';
+    tournois.forEach(t => {
+        const card = document.createElement('a');
+        card.className = 'tournoi-card';
+        card.href = 'resultats_tournoi.html?id=' + t.ID + '&token=' + tokenAdherent;
+        card.innerHTML = `
+            <div>
+                <div class="tournoi-date">📅 ${t.date} &nbsp;·&nbsp; N° ${t.ID}</div>
+                <div class="tournoi-type">${t.type.replace(/_/g, ' ')}</div>
+            </div>
+            <div style="display:flex;align-items:center;gap:0.5rem">
+                <span class="tournoi-badge">${t.nbre_equipe} équipes</span>
+                <span class="fleche">→</span>
+            </div>
+        `;
+        container.appendChild(card);
+    });
+}
+
+async function seConnecter() {
+    const email = document.getElementById('email').value.trim();
+    const mdp   = document.getElementById('mdp').value;
+    const btn   = document.getElementById('btn-connexion');
+    const msg   = document.getElementById('msg-erreur');
+
+    msg.style.display = 'none';
+
+    if (!email || !mdp) { afficherErreur('Email et mot de passe obligatoires'); return; }
+
+    btn.disabled    = true;
+    btn.textContent = 'Connexion...';
+
+    try {
+        const resp = await fetch('api_adherent.php?action=connexion', {
+            method:  'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body:    JSON.stringify({ email, mdp })
+        });
+        const data = await resp.json();
+
+        if (data.etat === 'OK') {
+            tokenAdherent = data.token;
+            idAssociation = data.idAssociation;
+            document.getElementById('section-connexion').style.display = 'none';
+            document.getElementById('section-tournois').style.display  = 'block';
+            document.getElementById('btn-deco').style.display           = 'block';
+            document.getElementById('titre-club').textContent = '🏆 Tournois de ' + data.nomClub;
+            chargerTournois();
+        } else if (data.etat === 'COMPTE_INACTIF') {
+            afficherErreur('Compte inactif. Contactez votre club pour réactiver votre accès.');
+        } else {
+            afficherErreur('Email ou mot de passe incorrect');
+        }
+    } catch(e) {
+        afficherErreur('Erreur de connexion au serveur');
+    }
+
+    btn.disabled    = false;
+    btn.textContent = 'Se connecter';
+}
+
+async function chargerTournois() {
+    const container = document.getElementById('liste-tournois');
+    container.innerHTML = '<div class="chargement">Chargement...</div>';
+    try {
+        const resp = await fetch('api_adherent.php?action=tournois&token=' + tokenAdherent);
+        const data = await resp.json();
+        afficherTournois(data.tournois);
+    } catch(e) {
+        container.innerHTML = '<div class="aucun-tournoi">❌ Erreur de chargement</div>';
+    }
+}
+
+function deconnecter() {
+    tokenAdherent = '';
+    idAssociation = 0;
+    document.getElementById('section-connexion').style.display = 'block';
+    document.getElementById('section-tournois').style.display  = 'none';
+    document.getElementById('btn-deco').style.display           = 'none';
+    document.getElementById('email').value = '';
+    document.getElementById('mdp').value   = '';
+}
+
+function afficherErreur(texte) {
+    const el = document.getElementById('msg-erreur');
+    el.textContent    = '❌ ' + texte;
+    el.style.display  = 'block';
+}
+
+document.addEventListener('keydown', e => {
+    if (e.key === 'Enter' && document.getElementById('section-connexion').style.display !== 'none') {
+        seConnecter();
+    }
+});
+</script>
+</body>
+</html>

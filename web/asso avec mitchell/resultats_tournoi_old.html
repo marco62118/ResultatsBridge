@@ -1,0 +1,434 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Résultats du tournoi — Bridge Online</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600;700&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --vert:  #1a472a;
+            --vert2: #2d6a4f;
+            --or:    #c9a84c;
+            --creme: #f8f4ec;
+            --texte: #1c1c1c;
+            --gris:  #6b6b6b;
+            --rouge: #EF5350;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'DM Sans', sans-serif;
+            background: var(--creme);
+            color: var(--texte);
+            min-height: 100vh;
+        }
+
+        /* ── Message rotation sur mobile portrait ── */
+        .msg-rotation {
+            display: none;
+            background: var(--vert);
+            color: white;
+            text-align: center;
+            padding: 0.5rem;
+            font-size: 0.82rem;
+        }
+
+        @media screen and (max-width: 768px) and (orientation: portrait) {
+            .msg-rotation { display: block; }
+        }
+
+        .header {
+            background: var(--vert);
+            color: white;
+            padding: 0.8rem 1.2rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .header-titre {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.2rem;
+            font-weight: 600;
+        }
+
+        .btn-retour {
+            background: rgba(255,255,255,0.15);
+            color: white;
+            border: 1px solid rgba(255,255,255,0.3);
+            padding: 0.35rem 0.8rem;
+            border-radius: 6px;
+            font-size: 0.82rem;
+            cursor: pointer;
+            text-decoration: none;
+            transition: background 0.2s;
+        }
+
+        .btn-retour:hover { background: rgba(255,255,255,0.25); }
+
+        .main { padding: 0.8rem; }
+
+        .tournoi-info {
+            background: white;
+            border-radius: 8px;
+            padding: 0.7rem 1rem;
+            margin-bottom: 0.8rem;
+            border: 1px solid rgba(201,168,76,0.2);
+            display: flex;
+            gap: 1.2rem;
+            flex-wrap: wrap;
+            align-items: center;
+            font-size: 0.85rem;
+        }
+
+        .tournoi-info span { color: var(--gris); }
+        .tournoi-info strong { color: var(--texte); }
+
+        .onglets {
+            display: flex;
+            gap: 0.4rem;
+            margin-bottom: 0.8rem;
+        }
+
+        .onglet {
+            padding: 0.45rem 0.9rem;
+            border-radius: 7px;
+            font-size: 0.83rem;
+            font-weight: 500;
+            cursor: pointer;
+            border: 1.5px solid #e0ddd6;
+            background: white;
+            color: var(--gris);
+            transition: all 0.15s;
+        }
+
+        .onglet.actif { background: var(--vert); color: white; border-color: var(--vert); }
+
+        /* ── Tableau donnes pleine largeur ── */
+        .tableau-wrapper {
+            width: 100%;
+            border-radius: 8px;
+            box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        table.donnes {
+            width: 100%;
+            border-collapse: collapse;
+            background: white;
+            min-width: 680px;
+        }
+
+        table.donnes thead tr { background: #b0bec5; }
+
+        table.donnes th {
+            padding: 6px 3px;
+            text-align: center;
+            font-size: 0.7rem;
+            font-weight: 700;
+            border: 0.5px solid #90a4ae;
+            overflow: hidden;
+        }
+
+        table.donnes td {
+            padding: 5px 3px;
+            text-align: center;
+            border: 0.5px solid #e0e0e0;
+            cursor: pointer;
+            vertical-align: middle;
+            font-size: 0.75rem;
+            line-height: 1.3;
+            overflow: hidden;
+        }
+
+        /* Largeurs colonnes */
+        table.donnes th:nth-child(1), table.donnes td:nth-child(1) { width: 5%; }   /* Donne */
+        table.donnes th:nth-child(2), table.donnes td:nth-child(2) { width: 12%; }  /* NS */
+        table.donnes th:nth-child(3), table.donnes td:nth-child(3) { width: 12%; }  /* EO */
+        table.donnes th:nth-child(4), table.donnes td:nth-child(4) { width: 8%; }   /* Contrat */
+        table.donnes th:nth-child(5), table.donnes td:nth-child(5) { width: 10%; }  /* Déclarant */
+        table.donnes th:nth-child(6), table.donnes td:nth-child(6) { width: 8%; }   /* Résultat */
+        table.donnes th:nth-child(7), table.donnes td:nth-child(7) { width: 8%; }   /* Entame */
+        table.donnes th:nth-child(8), table.donnes td:nth-child(8) { width: 9%; }   /* Score NS */
+        table.donnes th:nth-child(9), table.donnes td:nth-child(9) { width: 9%; }   /* Score EO */
+        table.donnes th:nth-child(10), table.donnes td:nth-child(10) { width: 9%; } /* Pts NS */
+        table.donnes th:nth-child(11), table.donnes td:nth-child(11) { width: 9%; } /* Pts EO */
+
+        table.donnes tbody tr:hover td { background: #f0f7f2 !important; }
+
+        .vulnerable { background: var(--rouge) !important; color: white; font-weight: 700; }
+
+        /* ── Classement ── */
+        table.classement {
+            width: 100%;
+            border-collapse: collapse;
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 1px 4px rgba(0,0,0,0.04);
+        }
+
+        table.classement th {
+            background: var(--vert);
+            color: white;
+            padding: 0.65rem 1rem;
+            text-align: left;
+            font-size: 0.78rem;
+            text-transform: uppercase;
+            letter-spacing: 0.04em;
+        }
+
+        table.classement td {
+            padding: 0.7rem 1rem;
+            border-bottom: 1px solid #f0ede6;
+            font-size: 0.88rem;
+        }
+
+        table.classement tr:last-child td { border-bottom: none; }
+        table.classement tr:hover td { background: #fafaf7; }
+        .rang-1 td { background: rgba(201,168,76,0.1); font-weight: 600; }
+        .rang-2 td { background: rgba(201,168,76,0.05); }
+
+        .chargement { text-align: center; padding: 2rem; color: var(--gris); }
+
+        .msg-reconnexion {
+            background: #fff3e0;
+            border: 1px solid #ffcc02;
+            color: #e65100;
+            padding: 0.8rem 1rem;
+            border-radius: 8px;
+            margin-bottom: 0.8rem;
+            display: none;
+            font-size: 0.88rem;
+        }
+    </style>
+</head>
+<body>
+
+<div class="msg-rotation">📱 Tournez votre téléphone en mode paysage pour un meilleur affichage</div>
+
+<div class="header">
+    <div class="header-titre" id="header-titre">🃏 Tournoi</div>
+    <a href="#" class="btn-retour" onclick="retourListe()">← Retour</a>
+</div>
+
+<div class="main">
+
+    <div class="msg-reconnexion" id="msg-reconnexion">
+        ⚠️ Session expirée. <a href="resultats.html">Reconnectez-vous</a>
+    </div>
+
+    <div class="tournoi-info" id="tournoi-info">
+        <div class="chargement">Chargement...</div>
+    </div>
+
+    <div class="onglets">
+        <button class="onglet actif" onclick="afficherOnglet('donnes', this)">🃏 Détail des donnes</button>
+        <button class="onglet" onclick="afficherOnglet('classement', this)">🏆 Classement</button>
+    </div>
+
+    <div id="section-donnes">
+        <div class="tableau-wrapper">
+            <table class="donnes">
+                <thead>
+                    <tr>
+                        <th>N°</th>
+                        <th>NS</th>
+                        <th>EO</th>
+                        <th>Contrat</th>
+                        <th>Déclarant</th>
+                        <th>Résultat</th>
+                        <th>Entame</th>
+                        <th>Sc. NS</th>
+                        <th>Sc. EO</th>
+                        <th>Pts NS</th>
+                        <th>Pts EO</th>
+                    </tr>
+                </thead>
+                <tbody id="tbody-donnes">
+                    <tr><td colspan="11" class="chargement">Chargement...</td></tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <div id="section-classement" style="display:none">
+        <div id="contenu-classement" class="chargement">Chargement...</div>
+    </div>
+
+</div>
+
+<script>
+const params    = new URLSearchParams(window.location.search);
+const idTournoi = params.get('id');
+const token     = params.get('token');
+
+let donnesData  = [];
+let equipesData = [];
+
+function retourListe() {
+    window.location.href = 'resultats.html?token=' + token;
+}
+
+// Formater : "NOM P." (nom complet + initiale prénom)
+function formatJoueurs(joueurs) {
+    if (!joueurs) return '—';
+    return joueurs.split('\n').map(j => {
+        const parts = j.trim().split(' ');
+        if (parts.length < 2) return j;
+        const prenom = parts[parts.length - 1]; // prenom est le dernier mot
+        const nom    = parts.slice(0, -1).join(' ');
+        return `${nom} ${prenom.charAt(0)}.`;
+    }).join('\n');
+}
+
+window.onload = async () => {
+    if (!idTournoi || !token) { window.location.href = 'resultats.html'; return; }
+    await chargerTournoi();
+};
+
+async function chargerTournoi() {
+    try {
+        const resp = await fetch(`api_adherent.php?action=tournoi&id=${idTournoi}&token=${token}`);
+        const data = await resp.json();
+
+        if (data.etat === 'TOKEN_INVALIDE' || data.etat === 'NON_CONNECTE') {
+            document.getElementById('msg-reconnexion').style.display = 'block';
+            document.getElementById('tournoi-info').innerHTML = '';
+            return;
+        }
+
+        if (data.etat !== 'OK') {
+            document.getElementById('tournoi-info').innerHTML = '<div class="chargement">❌ Tournoi introuvable</div>';
+            return;
+        }
+
+        donnesData  = data.donnes  || [];
+        equipesData = data.equipes || [];
+
+        document.getElementById('header-titre').textContent = `🃏 N°${data.id} — ${data.date}`;
+        document.getElementById('tournoi-info').innerHTML = `
+            <span>📅 <strong>${data.date}</strong></span>
+            <span>🃏 <strong>${data.type.replace(/_/g,' ')}</strong></span>
+            <span>👥 <strong>${data.nbre_equipe} équipes</strong></span>
+            <span>📋 <strong>${donnesData.length} donnes</strong></span>
+        `;
+
+        afficherDonnes();
+        afficherClassement(data.classement, data.equipes);
+
+    } catch(e) {
+        console.error(e);
+        document.getElementById('tournoi-info').innerHTML = '<div class="chargement">❌ Erreur</div>';
+    }
+}
+
+function afficherDonnes() {
+    const tbody = document.getElementById('tbody-donnes');
+    if (!donnesData.length) {
+        tbody.innerHTML = '<tr><td colspan="11" class="chargement">Aucune donne</td></tr>';
+        return;
+    }
+
+    tbody.innerHTML = '';
+    donnesData.forEach((d, idx) => {
+        const nsVuln  = d.vulnerable === 'NS' || d.vulnerable === 'T';
+        const eoVuln  = d.vulnerable === 'EO' || d.vulnerable === 'T';
+        const resText = (d.resultat_contrat === '=' || d.resultat_contrat === '0')
+            ? 'égal'
+            : `${d.resultat_contrat} ${d.nombre_pli}`;
+
+        const tr = document.createElement('tr');
+        tr.innerHTML = `
+            <td>${d.numero_donne}</td>
+            <td class="${nsVuln ? 'vulnerable' : ''}" style="white-space:pre-line">${formatJoueurs(d.ns_joueurs)}</td>
+            <td class="${eoVuln ? 'vulnerable' : ''}" style="white-space:pre-line">${formatJoueurs(d.eo_joueurs)}</td>
+            <td>${formaterContrat(d.contrat)}</td>
+            <td>${d.declarant || '—'}</td>
+            <td>${resText}</td>
+            <td>${d.carteEntame || '—'}</td>
+            <td>${d.pointsNS ?? 0}</td>
+            <td>${d.pointsEO ?? 0}</td>
+            <td>${Math.round(parseFloat(d.ptsNS||0))}</td>
+            <td>${Math.round(parseFloat(d.ptsEO||0))}</td>
+        `;
+        tr.onclick = () => ouvrirDonne(idx);
+        tbody.appendChild(tr);
+    });
+}
+
+function afficherClassement(classement, equipes) {
+    const container = document.getElementById('contenu-classement');
+    if (!classement || !classement.length) {
+        container.innerHTML = '<div class="chargement">Aucun classement</div>';
+        return;
+    }
+
+    const medailles = ['🥇','🥈','🥉'];
+    const mapEq = {};
+    (equipes||[]).forEach(e => mapEq[e.equipeNumero] = e);
+
+    let html = `<table class="classement"><thead><tr>
+        <th>Rang</th><th>Joueurs</th><th style="text-align:right">Points</th>
+    </tr></thead><tbody>`;
+
+    classement.forEach(c => {
+        const eq = mapEq[c.numeroEquipe];
+        const j1 = eq ? `${eq.joueur1_nom} ${eq.joueur1_prenom.charAt(0)}.` : `Éq.${c.numeroEquipe}`;
+        const j2 = eq ? ` & ${eq.joueur2_nom} ${eq.joueur2_prenom.charAt(0)}.` : '';
+        const med = medailles[c.rang-1] || '';
+        html += `<tr class="${c.rang<=3?'rang-'+c.rang:''}">
+            <td>${med} ${c.rang}</td>
+            <td>${j1}${j2}</td>
+            <td style="font-weight:600;text-align:right">${Math.round(parseFloat(c.totalPts||0))}</td>
+        </tr>`;
+    });
+
+    html += '</tbody></table>';
+    container.innerHTML = html;
+}
+
+function ouvrirDonne(idx) {
+    const d = donnesData[idx];
+    fetch(`api_adherent.php?action=donne&id=${idTournoi}&numeroDonne=${d.numero_donne}&equipeNS=${d.equipeNS}&token=${token}`)
+        .then(r => r.json())
+        .then(data => {
+            if (data.etat === 'OK') {
+                sessionStorage.setItem('donne', JSON.stringify({
+                    ...d,
+                    mains:      data.mains,
+                    encheres:   data.encheres,
+                    vulnerable: data.vulnerable,
+                    donneur:    data.donneur,
+                    contrat:    data.contrat,
+                    declarant:  data.declarant,
+                    idTournoi:  idTournoi,
+                    token:      token
+                }));
+                window.location.href = 'affichage_donne.html';
+            } else if (data.etat === 'TOKEN_INVALIDE') {
+                document.getElementById('msg-reconnexion').style.display = 'block';
+            } else {
+                alert('Erreur : ' + data.etat);
+            }
+        })
+        .catch(() => alert('Erreur réseau'));
+}
+
+function formaterContrat(c) {
+    if (!c) return '—';
+    return c.replace(/P/g,'♠').replace(/C/g,'♥').replace(/K/g,'♦').replace(/T/g,'♣').replace(/S/g,' SA');
+}
+
+function afficherOnglet(nom, btn) {
+    document.querySelectorAll('.onglet').forEach(o => o.classList.remove('actif'));
+    btn.classList.add('actif');
+    document.getElementById('section-donnes').style.display     = nom === 'donnes'     ? 'block' : 'none';
+    document.getElementById('section-classement').style.display = nom === 'classement' ? 'block' : 'none';
+}
+</script>
+</body>
+</html>

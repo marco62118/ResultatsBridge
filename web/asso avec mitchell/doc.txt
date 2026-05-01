@@ -1,0 +1,38 @@
+Voici le récapitulatif complet du système associations :
+Ce qui est en place :
+Base de données — table associations avec nom, email, mdp_hash, token_api, actif, plan, nbre_tournois_max (5), nbre_tournois_joues. Table codes_invitation avec les codes que vous gérez.
+Inscription — page web inscription.html accessible à l'URL :
+https://tournoi-bridge-online.alwaysdata.net/asso/inscription.html
+Le club saisit son nom, email, mot de passe et le code d'invitation. Compte activé immédiatement.
+Connexion — dans l'app TournoiBridgeOnline, l'organisateur et les joueurs saisissent email + mot de passe de leur association. Mémorisés de façon sécurisée.
+Isolation des données — chaque club ne voit que ses propres tournois, joueurs, résultats grâce au token_api transmis dans chaque requête.
+Limite de tournois — 5 gratuits, avertissement au 5ème et 6ème, bloqué au 7ème.
+
+Pour inviter un club, vous leur envoyez simplement :
+
+Bonjour,
+Pour vous inscrire sur TournoiBridgeOnline, rendez-vous sur :
+https://tournoi-bridge-online.alwaysdata.net/asso/inscription.html
+Votre code d'invitation : BRIDGE2025
+
+
+pour gérer compte de club:
+https://tournoi-bridge-online.alwaysdata.net/asso/mon_compte.html
+
+pour adhérent se connecte pour voir les résultats et s'inscrire
+https://tournoi-bridge-online.alwaysdata.net/asso/resultats.html
+
+Pour gérer les codes dans phpMyAdmin :
+sql-- Créer un nouveau code
+INSERT INTO codes_invitation (code, description) 
+VALUES ('CLUB2025', 'Pour le club de Gap');
+
+-- Désactiver un code
+UPDATE codes_invitation SET actif = 0 WHERE code = 'BRIDGE2025';
+
+-- Voir tous les codes et leur utilisation
+SELECT * FROM codes_invitation;
+Pour débloquer un club qui a atteint sa limite :
+sqlUPDATE associations 
+SET nbre_tournois_max = nbre_tournois_max + 5 
+WHERE email = 'club@exemple.fr';

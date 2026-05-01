@@ -1,0 +1,6 @@
+# Interdit l'accès HTTP direct au fichier de configuration.
+# Même si PHP tombe en panne, Apache bloque la lecture du fichier.
+<Files "config.php">
+    Order allow,deny
+    Deny from all
+</Files>

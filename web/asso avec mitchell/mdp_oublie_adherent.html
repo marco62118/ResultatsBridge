@@ -1,0 +1,604 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mot de passe oublié — Espace Adhérent</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600;700&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --vert:  #1a472a;
+            --vert2: #2d6a4f;
+            --or:    #c9a84c;
+            --creme: #f8f4ec;
+            --texte: #1c1c1c;
+            --gris:  #6b6b6b;
+            --rouge: #c0392b;
+            --succes:#1a472a;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'DM Sans', sans-serif;
+            background: var(--creme);
+            color: var(--texte);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+            background-image:
+                radial-gradient(ellipse at 20% 50%, rgba(26,71,42,0.06) 0%, transparent 60%),
+                radial-gradient(ellipse at 80% 20%, rgba(201,168,76,0.08) 0%, transparent 50%);
+        }
+
+        .container { width: 100%; max-width: 460px; }
+
+        .entete { text-align: center; margin-bottom: 2rem; }
+        .logo { font-size: 2.5rem; margin-bottom: 0.5rem; }
+        .entete h1 {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.9rem;
+            color: var(--vert);
+            margin-bottom: 0.3rem;
+        }
+        .entete p { color: var(--gris); font-size: 0.9rem; }
+
+        .carte {
+            background: white;
+            border-radius: 16px;
+            padding: 2rem;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.04), 0 8px 32px rgba(26,71,42,0.08);
+            border: 1px solid rgba(201,168,76,0.2);
+        }
+
+        .etapes {
+            display: flex;
+            justify-content: center;
+            gap: 0;
+            margin-bottom: 2rem;
+            position: relative;
+        }
+
+        .etapes::before {
+            content: '';
+            position: absolute;
+            top: 14px;
+            left: 20%;
+            right: 20%;
+            height: 2px;
+            background: #e0ddd6;
+            z-index: 0;
+        }
+
+        .etape {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.4rem;
+            flex: 1;
+            position: relative;
+            z-index: 1;
+        }
+
+        .etape-num {
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            background: #e0ddd6;
+            color: var(--gris);
+            font-size: 0.78rem;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s;
+        }
+
+        .etape-label {
+            font-size: 0.72rem;
+            color: var(--gris);
+            text-align: center;
+            font-weight: 500;
+        }
+
+        .etape.active .etape-num  { background: var(--vert); color: white; }
+        .etape.active .etape-label { color: var(--vert); font-weight: 600; }
+        .etape.done .etape-num    { background: var(--or); color: white; }
+
+        .panel { display: none; }
+        .panel.active { display: block; }
+
+        .groupe { margin-bottom: 1.2rem; }
+
+        label {
+            display: block;
+            font-size: 0.82rem;
+            font-weight: 500;
+            color: var(--vert);
+            margin-bottom: 0.35rem;
+            text-transform: uppercase;
+            letter-spacing: 0.04em;
+        }
+
+        input[type="email"],
+        input[type="text"],
+        input[type="password"] {
+            width: 100%;
+            padding: 0.8rem 1rem;
+            border: 1.5px solid #e0ddd6;
+            border-radius: 10px;
+            font-family: 'DM Sans', sans-serif;
+            font-size: 0.95rem;
+            color: var(--texte);
+            background: #fdfcfa;
+            outline: none;
+            transition: border-color 0.2s, box-shadow 0.2s;
+        }
+
+        input:focus {
+            border-color: var(--or);
+            box-shadow: 0 0 0 3px rgba(201,168,76,0.12);
+            background: white;
+        }
+
+        .input-code {
+            font-size: 1.4rem;
+            font-weight: 700;
+            letter-spacing: 0.25em;
+            text-align: center;
+            text-transform: uppercase;
+            border-color: rgba(201,168,76,0.4);
+            background: rgba(201,168,76,0.04);
+        }
+
+        .aide { font-size: 0.78rem; color: var(--gris); margin-top: 0.3rem; }
+
+        .btn {
+            width: 100%;
+            padding: 0.9rem;
+            background: linear-gradient(135deg, var(--vert) 0%, var(--vert2) 100%);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-family: 'DM Sans', sans-serif;
+            font-size: 0.95rem;
+            font-weight: 500;
+            cursor: pointer;
+            margin-top: 0.5rem;
+            transition: transform 0.15s, box-shadow 0.15s;
+        }
+
+        .btn:hover { transform: translateY(-1px); box-shadow: 0 4px 16px rgba(26,71,42,0.25); }
+        .btn:disabled { opacity: 0.6; cursor: not-allowed; transform: none; }
+
+        .message {
+            display: none;
+            padding: 0.9rem 1rem;
+            border-radius: 8px;
+            font-size: 0.88rem;
+            margin-bottom: 1rem;
+            line-height: 1.5;
+        }
+        .message.erreur { display: block; background: #fdf2f2; border: 1px solid #f5c6c6; color: var(--rouge); }
+        .message.succes { display: block; background: #f0f7f2; border: 1px solid #b8ddc4; color: var(--succes); }
+        .message.info   { display: block; background: #f0f4ff; border: 1px solid #c0cef5; color: #2c4fa8; }
+
+        .email-illu {
+            text-align: center;
+            padding: 1.5rem 0;
+        }
+        .email-illu .icone {
+            font-size: 3.5rem;
+            display: block;
+            margin-bottom: 0.8rem;
+            animation: float 3s ease-in-out infinite;
+        }
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50%       { transform: translateY(-6px); }
+        }
+        .email-illu h2 {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.4rem;
+            color: var(--vert);
+            margin-bottom: 0.4rem;
+        }
+        .email-illu p { font-size: 0.88rem; color: var(--gris); line-height: 1.6; }
+        .email-illu .email-dest {
+            display: inline-block;
+            margin: 0.6rem 0;
+            background: rgba(26,71,42,0.07);
+            color: var(--vert);
+            font-weight: 600;
+            font-size: 0.92rem;
+            padding: 0.3rem 0.9rem;
+            border-radius: 20px;
+        }
+
+        .renvoi {
+            text-align: center;
+            margin-top: 1rem;
+            font-size: 0.82rem;
+            color: var(--gris);
+        }
+        .renvoi a {
+            color: var(--vert);
+            font-weight: 500;
+            text-decoration: none;
+            cursor: pointer;
+        }
+        .renvoi a:hover { text-decoration: underline; }
+        .renvoi a.disabled { color: var(--gris); cursor: not-allowed; pointer-events: none; }
+
+        .succes-final {
+            text-align: center;
+            padding: 1.5rem 0;
+        }
+        .succes-final .check { font-size: 3rem; display: block; margin-bottom: 0.8rem; }
+        .succes-final h2 {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.4rem;
+            color: var(--vert);
+            margin-bottom: 0.5rem;
+        }
+        .succes-final p { font-size: 0.88rem; color: var(--gris); margin-bottom: 1.5rem; }
+
+        .lien-retour {
+            text-align: center;
+            margin-top: 1.2rem;
+            font-size: 0.85rem;
+            color: var(--gris);
+        }
+        .lien-retour a { color: var(--vert); font-weight: 500; text-decoration: none; }
+        .lien-retour a:hover { text-decoration: underline; }
+
+        .force-mdp {
+            display: flex;
+            gap: 4px;
+            margin-top: 0.5rem;
+        }
+        .force-mdp .barre {
+            flex: 1;
+            height: 4px;
+            border-radius: 2px;
+            background: #e0ddd6;
+            transition: background 0.3s;
+        }
+        .force-label { font-size: 0.75rem; color: var(--gris); margin-top: 0.3rem; }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="entete">
+        <div class="logo">🃏</div>
+        <h1>Mot de passe oublié</h1>
+        <p>Espace adhérent — Réinitialisation sécurisée</p>
+    </div>
+
+    <div class="carte">
+
+        <div class="etapes" id="indicateur-etapes">
+            <div class="etape active" id="etape-1">
+                <div class="etape-num">1</div>
+                <div class="etape-label">Email</div>
+            </div>
+            <div class="etape" id="etape-2">
+                <div class="etape-num">2</div>
+                <div class="etape-label">Code</div>
+            </div>
+            <div class="etape" id="etape-3">
+                <div class="etape-num">3</div>
+                <div class="etape-label">Nouveau mdp</div>
+            </div>
+        </div>
+
+        <!-- ── Panel 1 : Email ── -->
+        <div class="panel active" id="panel-email">
+            <div id="msg-email" class="message"></div>
+
+            <div class="groupe">
+                <label for="email">Votre adresse email</label>
+                <input type="email" id="email" autocomplete="email" placeholder="vous@exemple.fr">
+                <p class="aide">Entrez l'email utilisé lors de votre inscription.</p>
+            </div>
+
+            <button class="btn" id="btn-email" onclick="envoyerCode()">
+                Envoyer le code de vérification
+            </button>
+
+            <div class="lien-retour" style="margin-top:1.2rem">
+                <a href="resultats.html">← Retour à la connexion</a>
+            </div>
+        </div>
+
+        <!-- ── Panel 2 : Code ── -->
+        <div class="panel" id="panel-code">
+            <div class="email-illu">
+                <span class="icone">📬</span>
+                <h2>Vérifiez vos emails</h2>
+                <p>Un code à 6 chiffres a été envoyé à</p>
+                <div class="email-dest" id="email-affiche">—</div>
+                <p>Saisissez-le ci-dessous pour continuer.</p>
+            </div>
+
+            <div id="msg-code" class="message"></div>
+
+            <div class="groupe">
+                <label for="code-verif">Code de vérification</label>
+                <input type="text" id="code-verif" class="input-code"
+                    maxlength="6" inputmode="numeric" autocomplete="one-time-code"
+                    placeholder="• • • • • •">
+            </div>
+
+            <button class="btn" id="btn-code" onclick="verifierCode()">
+                Vérifier le code
+            </button>
+
+            <div class="renvoi">
+                Pas reçu ?
+                <a id="lien-renvoi" class="disabled" onclick="renvoyerCode()">
+                    Renvoyer dans <span id="compteur">60</span>s
+                </a>
+            </div>
+        </div>
+
+        <!-- ── Panel 3 : Nouveau mot de passe ── -->
+        <div class="panel" id="panel-mdp">
+            <div id="msg-mdp" class="message"></div>
+
+            <div class="groupe">
+                <label for="nouveau-mdp">Nouveau mot de passe</label>
+                <div style="position:relative">
+                    <input type="password" id="nouveau-mdp" minlength="6"
+                        oninput="evaluerForce(this.value)"
+                        style="width:100%;box-sizing:border-box;padding-right:2.8rem;height:3rem;line-height:normal">
+                    <span onclick="toggleMdp('nouveau-mdp',this)" style="position:absolute;right:0.75rem;top:0;bottom:0;display:flex;align-items:center;cursor:pointer;font-size:1.1rem;user-select:none">👁</span>
+                </div>
+                <div class="force-mdp">
+                    <div class="barre" id="b1"></div>
+                    <div class="barre" id="b2"></div>
+                    <div class="barre" id="b3"></div>
+                    <div class="barre" id="b4"></div>
+                </div>
+                <div class="force-label" id="force-label">Minimum 6 caractères</div>
+            </div>
+
+            <div class="groupe">
+                <label for="confirm-mdp">Confirmer le mot de passe</label>
+                <div style="position:relative">
+                    <input type="password" id="confirm-mdp" minlength="6"
+                        style="width:100%;box-sizing:border-box;padding-right:2.8rem;height:3rem;line-height:normal">
+                    <span onclick="toggleMdp('confirm-mdp',this)" style="position:absolute;right:0.75rem;top:0;bottom:0;display:flex;align-items:center;cursor:pointer;font-size:1.1rem;user-select:none">👁</span>
+                </div>
+            </div>
+
+            <button class="btn" id="btn-mdp" onclick="changerMdp()">
+                Enregistrer le nouveau mot de passe
+            </button>
+        </div>
+
+        <!-- ── Panel 4 : Succès ── -->
+        <div class="panel" id="panel-succes">
+            <div class="succes-final">
+                <span class="check">✅</span>
+                <h2>Mot de passe mis à jour !</h2>
+                <p>Votre mot de passe adhérent a été réinitialisé avec succès.<br>Vous pouvez maintenant vous connecter.</p>
+                <a href="resultats.html" class="btn" style="display:inline-block;width:auto;padding:0.8rem 2rem;text-decoration:none">
+                    Se connecter
+                </a>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<script>
+let emailValide   = '';
+let tokenReset    = '';
+let timerInterval = null;
+
+function toggleMdp(id, btn) {
+    const input = document.getElementById(id);
+    const visible = input.getAttribute('data-visible') === '1';
+    if (visible) {
+        input.setAttribute('type', 'password');
+        input.setAttribute('data-visible', '0');
+        btn.textContent = '👁';
+    } else {
+        input.setAttribute('type', 'text');
+        input.setAttribute('data-visible', '1');
+        btn.textContent = '🙈';
+    }
+}
+
+function afficherMsg(id, texte, type) {
+    const el = document.getElementById(id);
+    el.className = 'message ' + type;
+    el.textContent = texte;
+}
+
+function allerEtape(num) {
+    const panels = ['email', 'code', 'mdp', 'succes'];
+    panels.forEach((p, i) => {
+        document.getElementById('panel-' + p).classList.toggle('active', i + 1 === num);
+    });
+    [1, 2, 3].forEach(n => {
+        const e = document.getElementById('etape-' + n);
+        if (e) {
+            e.classList.remove('active', 'done');
+            if (n < num)  e.classList.add('done');
+            if (n === num) e.classList.add('active');
+        }
+    });
+    if (num === 4) document.getElementById('indicateur-etapes').style.display = 'none';
+}
+
+async function envoyerCode() {
+    const email = document.getElementById('email').value.trim();
+    const btn   = document.getElementById('btn-email');
+    if (!email) { afficherMsg('msg-email', '❌ Veuillez saisir votre adresse email.', 'erreur'); return; }
+
+    btn.disabled = true;
+    btn.textContent = 'Envoi en cours...';
+
+    try {
+        const resp = await fetch('api_adherent.php?action=mdpOublie', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ email })
+        });
+        const data = await resp.json();
+
+        if (data.etat === 'OK') {
+            emailValide = email;
+            document.getElementById('email-affiche').textContent = email;
+            allerEtape(2);
+            lancerCompteur();
+        } else if (data.etat === 'EMAIL_INCONNU') {
+            afficherMsg('msg-email', '❌ Aucun compte adhérent trouvé avec cet email.', 'erreur');
+        } else {
+            afficherMsg('msg-email', '❌ Erreur lors de l\'envoi. Réessayez.', 'erreur');
+        }
+    } catch(e) {
+        afficherMsg('msg-email', '❌ Impossible de contacter le serveur.', 'erreur');
+    }
+
+    btn.disabled = false;
+    btn.textContent = 'Envoyer le code de vérification';
+}
+
+function lancerCompteur() {
+    clearInterval(timerInterval);
+    let secondes = 60;
+    const lien = document.getElementById('lien-renvoi');
+    lien.classList.add('disabled');
+    lien.textContent = 'Renvoyer dans ' + secondes + 's';
+
+    timerInterval = setInterval(() => {
+        secondes--;
+        if (secondes <= 0) {
+            clearInterval(timerInterval);
+            lien.classList.remove('disabled');
+            lien.textContent = 'Renvoyer le code';
+        } else {
+            lien.textContent = 'Renvoyer dans ' + secondes + 's';
+        }
+    }, 1000);
+}
+
+async function renvoyerCode() {
+    const lien = document.getElementById('lien-renvoi');
+    if (lien.classList.contains('disabled')) return;
+    afficherMsg('msg-code', '📤 Renvoi en cours...', 'info');
+    try {
+        await fetch('api_adherent.php?action=mdpOublie', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ email: emailValide })
+        });
+        afficherMsg('msg-code', '✅ Nouveau code envoyé !', 'succes');
+        lancerCompteur();
+    } catch(e) {
+        afficherMsg('msg-code', '❌ Erreur lors du renvoi.', 'erreur');
+    }
+}
+
+async function verifierCode() {
+    const code = document.getElementById('code-verif').value.trim();
+    const btn  = document.getElementById('btn-code');
+    if (code.length !== 6) { afficherMsg('msg-code', '❌ Le code doit comporter 6 chiffres.', 'erreur'); return; }
+
+    btn.disabled = true;
+    btn.textContent = 'Vérification...';
+
+    try {
+        const resp = await fetch('api_adherent.php?action=verifierCodeMdp', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ email: emailValide, code })
+        });
+        const data = await resp.json();
+
+        if (data.etat === 'OK') {
+            tokenReset = data.token;
+            clearInterval(timerInterval);
+            allerEtape(3);
+        } else if (data.etat === 'CODE_EXPIRE') {
+            afficherMsg('msg-code', '⏱ Ce code a expiré. Veuillez en demander un nouveau.', 'erreur');
+        } else {
+            afficherMsg('msg-code', '❌ Code incorrect. Vérifiez vos emails.', 'erreur');
+        }
+    } catch(e) {
+        afficherMsg('msg-code', '❌ Erreur de connexion.', 'erreur');
+    }
+
+    btn.disabled = false;
+    btn.textContent = 'Vérifier le code';
+}
+
+function evaluerForce(mdp) {
+    const couleurs = ['#e0ddd6', '#e74c3c', '#e67e22', '#f1c40f', '#27ae60'];
+    let score = 0;
+    if (mdp.length >= 6)  score++;
+    if (/[A-Z]/.test(mdp)) score++;
+    if (/[0-9]/.test(mdp)) score++;
+    if (/[^A-Za-z0-9]/.test(mdp)) score++;
+
+    const labels = ['', 'Trop faible', 'Faible', 'Moyen', 'Fort'];
+    document.getElementById('force-label').textContent = labels[score] || 'Minimum 6 caractères';
+
+    for (let i = 1; i <= 4; i++) {
+        document.getElementById('b' + i).style.background = i <= score ? couleurs[score] : '#e0ddd6';
+    }
+}
+
+async function changerMdp() {
+    const mdp    = document.getElementById('nouveau-mdp').value;
+    const mdp2   = document.getElementById('confirm-mdp').value;
+    const btn    = document.getElementById('btn-mdp');
+
+    if (mdp.length < 6) { afficherMsg('msg-mdp', '❌ Le mot de passe doit contenir au moins 6 caractères.', 'erreur'); return; }
+    if (mdp !== mdp2)   { afficherMsg('msg-mdp', '❌ Les mots de passe ne correspondent pas.', 'erreur'); return; }
+
+    btn.disabled = true;
+    btn.textContent = 'Enregistrement...';
+
+    try {
+        const resp = await fetch('api_adherent.php?action=resetMdp', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ email: emailValide, token: tokenReset, mdp })
+        });
+        const data = await resp.json();
+
+        if (data.etat === 'OK') {
+            allerEtape(4);
+        } else if (data.etat === 'TOKEN_INVALIDE') {
+            afficherMsg('msg-mdp', '❌ Session expirée. Recommencez depuis l\'étape 1.', 'erreur');
+        } else {
+            afficherMsg('msg-mdp', '❌ Erreur serveur. Réessayez.', 'erreur');
+        }
+    } catch(e) {
+        afficherMsg('msg-mdp', '❌ Erreur de connexion.', 'erreur');
+    }
+
+    btn.disabled = false;
+    btn.textContent = 'Enregistrer le nouveau mot de passe';
+}
+
+document.getElementById('code-verif').addEventListener('input', function() {
+    this.value = this.value.replace(/\D/g, '').slice(0, 6);
+});
+
+document.addEventListener('keydown', function(e) {
+    if (e.key === 'Enter') {
+        if (document.getElementById('panel-email').classList.contains('active')) envoyerCode();
+        else if (document.getElementById('panel-code').classList.contains('active')) verifierCode();
+        else if (document.getElementById('panel-mdp').classList.contains('active')) changerMdp();
+    }
+});
+</script>
+</body>
+</html>

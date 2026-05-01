@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inscription adhérent — Tournoi Bridge Online</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600;700&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --vert:  #1a472a;
+            --vert2: #2d6a4f;
+            --or:    #c9a84c;
+            --creme: #f8f4ec;
+            --texte: #1c1c1c;
+            --gris:  #6b6b6b;
+            --rouge: #c0392b;
+            --succes:#1a472a;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'DM Sans', sans-serif;
+            background: var(--creme);
+            color: var(--texte);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+            background-image:
+                radial-gradient(ellipse at 20% 50%, rgba(26,71,42,0.06) 0%, transparent 60%),
+                radial-gradient(ellipse at 80% 20%, rgba(201,168,76,0.08) 0%, transparent 50%);
+        }
+
+        .container { width: 100%; max-width: 480px; }
+
+        .entete { text-align: center; margin-bottom: 2rem; }
+        .logo { font-size: 2.5rem; margin-bottom: 0.5rem; }
+        .entete h1 {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.9rem;
+            color: var(--vert);
+            margin-bottom: 0.3rem;
+        }
+        .entete p { color: var(--gris); font-size: 0.9rem; }
+
+        .carte {
+            background: white;
+            border-radius: 16px;
+            padding: 2rem;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.04), 0 8px 32px rgba(26,71,42,0.08);
+            border: 1px solid rgba(201,168,76,0.2);
+        }
+
+        .groupe { margin-bottom: 1.2rem; }
+
+        label {
+            display: block;
+            font-size: 0.82rem;
+            font-weight: 500;
+            color: var(--vert);
+            margin-bottom: 0.35rem;
+            text-transform: uppercase;
+            letter-spacing: 0.04em;
+        }
+
+        input[type="email"],
+        input[type="text"],
+        input[type="password"] {
+            width: 100%;
+            padding: 0.8rem 1rem;
+            border: 1.5px solid #e0ddd6;
+            border-radius: 10px;
+            font-family: 'DM Sans', sans-serif;
+            font-size: 0.95rem;
+            color: var(--texte);
+            background: #fdfcfa;
+            outline: none;
+            transition: border-color 0.2s, box-shadow 0.2s;
+        }
+
+        input:focus {
+            border-color: var(--or);
+            box-shadow: 0 0 0 3px rgba(201,168,76,0.12);
+            background: white;
+        }
+
+        .input-code {
+            font-size: 1rem;
+            font-weight: 600;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            border-color: rgba(201,168,76,0.4);
+            background: rgba(201,168,76,0.04);
+        }
+
+        .aide { font-size: 0.78rem; color: var(--gris); margin-top: 0.3rem; }
+
+        .separateur {
+            height: 1px;
+            background: linear-gradient(to right, transparent, rgba(201,168,76,0.3), transparent);
+            margin: 1.2rem 0;
+        }
+
+        .btn {
+            width: 100%;
+            padding: 0.9rem;
+            background: linear-gradient(135deg, var(--vert) 0%, var(--vert2) 100%);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-family: 'DM Sans', sans-serif;
+            font-size: 0.95rem;
+            font-weight: 500;
+            cursor: pointer;
+            margin-top: 0.5rem;
+            transition: transform 0.15s, box-shadow 0.15s;
+        }
+
+        .btn:hover { transform: translateY(-1px); box-shadow: 0 4px 16px rgba(26,71,42,0.25); }
+        .btn:disabled { opacity: 0.6; cursor: not-allowed; transform: none; }
+
+        .message {
+            display: none;
+            padding: 0.9rem 1rem;
+            border-radius: 8px;
+            font-size: 0.88rem;
+            margin-bottom: 1rem;
+            line-height: 1.5;
+        }
+
+        .message.erreur  { display: block; background: #fdf2f2; border: 1px solid #f5c6c6; color: var(--rouge); }
+        .message.succes  { display: block; background: #f0f7f2; border: 1px solid #b8ddc4; color: var(--succes); }
+
+        .lien-connexion {
+            text-align: center;
+            margin-top: 1.2rem;
+            font-size: 0.85rem;
+            color: var(--gris);
+        }
+
+        .lien-connexion a { color: var(--vert); font-weight: 500; text-decoration: none; }
+        .lien-connexion a:hover { text-decoration: underline; }
+
+        .row { display: flex; gap: 0.8rem; }
+        .row .groupe { flex: 1; }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="entete">
+        <div class="logo">🃏</div>
+        <h1>Espace adhérent</h1>
+        <p>Créez votre compte pour consulter les résultats</p>
+    </div>
+
+    <div class="carte">
+        <div id="message" class="message"></div>
+
+        <form id="formInscription">
+
+            <div class="groupe">
+                <label for="code">Code du club</label>
+                <input type="text" id="code" class="input-code"
+                    required autocomplete="off">
+                <p class="aide">Demandez ce code à votre organisateur.</p>
+            </div>
+
+            <div class="separateur"></div>
+
+            <div class="row">
+                <div class="groupe">
+                    <label for="prenom">Prénom</label>
+                    <input type="text" id="prenom" required>
+                </div>
+                <div class="groupe">
+                    <label for="nom">Nom</label>
+                    <input type="text" id="nom" required>
+                </div>
+            </div>
+
+            <div class="groupe">
+                <label for="email">Email</label>
+                <input type="email" id="email" required>
+            </div>
+
+            <div class="groupe">
+                <label for="mdp">Mot de passe</label>
+                <div style="position:relative">
+                    <input type="password" id="mdp" required minlength="6" style="width:100%;box-sizing:border-box;padding-right:2.8rem;height:3rem;line-height:normal">
+                    <span onclick="toggleMdp('mdp',this)" style="position:absolute;right:0.75rem;top:0;bottom:0;display:flex;align-items:center;cursor:pointer;font-size:1.1rem;user-select:none">👁</span>
+                </div>
+            </div>
+
+            <div class="groupe">
+                <label for="mdp2">Confirmer le mot de passe</label>
+                <div style="position:relative">
+                    <input type="password" id="mdp2" required minlength="6" style="width:100%;box-sizing:border-box;padding-right:2.8rem;height:3rem;line-height:normal">
+                    <span onclick="toggleMdp('mdp2',this)" style="position:absolute;right:0.75rem;top:0;bottom:0;display:flex;align-items:center;cursor:pointer;font-size:1.1rem;user-select:none">👁</span>
+                </div>
+            </div>
+
+            <button type="submit" class="btn" id="btnSubmit">
+                Créer mon compte
+            </button>
+        </form>
+
+        <div class="lien-connexion">
+            Déjà un compte ? <a href="resultats.html">Se connecter</a>
+        </div>
+    </div>
+</div>
+
+<script>
+function toggleMdp(id, btn) {
+    const input = document.getElementById(id);
+    const visible = input.getAttribute('data-visible') === '1';
+    if (visible) {
+        input.setAttribute('type', 'password');
+        input.setAttribute('data-visible', '0');
+        btn.textContent = '👁';
+    } else {
+        input.setAttribute('type', 'text');
+        input.setAttribute('data-visible', '1');
+        btn.textContent = '🙈';
+    }
+}
+
+document.getElementById('code').addEventListener('input', function() {
+    this.value = this.value.toUpperCase();
+});
+
+document.getElementById('formInscription').addEventListener('submit', async function(e) {
+    e.preventDefault();
+
+    const code   = document.getElementById('code').value.trim().toUpperCase();
+    const nom    = document.getElementById('nom').value.trim().toUpperCase();
+    const prenom = document.getElementById('prenom').value.trim();
+    const email  = document.getElementById('email').value.trim();
+    const mdp    = document.getElementById('mdp').value;
+    const mdp2   = document.getElementById('mdp2').value;
+    const msg    = document.getElementById('message');
+    const btn    = document.getElementById('btnSubmit');
+
+    msg.className = 'message';
+
+    if (mdp !== mdp2) {
+        msg.className = 'message erreur';
+        msg.textContent = '❌ Les mots de passe ne correspondent pas.';
+        return;
+    }
+    if (mdp.length < 6) {
+        msg.className = 'message erreur';
+        msg.textContent = '❌ Le mot de passe doit contenir au moins 6 caractères.';
+        return;
+    }
+
+    btn.disabled = true;
+    btn.textContent = 'Création en cours...';
+
+    try {
+        const resp = await fetch('traitement_inscription_adherent.php', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ code, nom, prenom, email, mdp })
+        });
+        const data = await resp.json();
+
+        if (data.etat === 'OK') {
+            msg.className = 'message succes';
+            msg.textContent = '✅ Compte créé ! Redirection vers la connexion...';
+            document.getElementById('formInscription').style.display = 'none';
+            setTimeout(() => { window.location.href = 'resultats.html'; }, 2000);
+        } else if (data.etat === 'CODE_INVALIDE') {
+            msg.className = 'message erreur';
+            msg.textContent = '❌ Code de club invalide. Vérifiez avec votre organisateur.';
+        } else if (data.etat === 'EMAIL_EXISTE') {
+            msg.className = 'message erreur';
+            msg.textContent = '❌ Cet email est déjà utilisé.';
+        } else {
+            msg.className = 'message erreur';
+            msg.textContent = '❌ ' + (data.message || 'Erreur, veuillez réessayer.');
+        }
+    } catch(e) {
+        msg.className = 'message erreur';
+        msg.textContent = '❌ Erreur de connexion au serveur.';
+    }
+
+    btn.disabled = false;
+    btn.textContent = 'Créer mon compte';
+});
+</script>
+</body>
+</html>

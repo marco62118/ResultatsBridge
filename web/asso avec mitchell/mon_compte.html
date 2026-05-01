@@ -1,0 +1,815 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mon Compte — Tournoi Bridge Online</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600;700&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --vert:  #1a472a;
+            --vert2: #2d6a4f;
+            --or:    #c9a84c;
+            --creme: #f8f4ec;
+            --texte: #1c1c1c;
+            --gris:  #6b6b6b;
+            --rouge: #c0392b;
+            --orange: #e67e22;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'DM Sans', sans-serif;
+            background: var(--creme);
+            color: var(--texte);
+            min-height: 100vh;
+        }
+
+        .header {
+            background: var(--vert);
+            color: white;
+            padding: 1rem 1.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .header-titre {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.4rem;
+            font-weight: 600;
+        }
+
+        .btn-deco {
+            background: rgba(255,255,255,0.15);
+            color: white;
+            border: 1px solid rgba(255,255,255,0.3);
+            padding: 0.4rem 1rem;
+            border-radius: 6px;
+            font-size: 0.85rem;
+            cursor: pointer;
+            font-family: 'DM Sans', sans-serif;
+            transition: background 0.2s;
+        }
+
+        .btn-deco:hover { background: rgba(255,255,255,0.25); }
+
+        .main { max-width: 900px; margin: 0 auto; padding: 2rem 1rem; }
+
+        /* ── Connexion ── */
+        .carte-connexion {
+            background: white;
+            border-radius: 16px;
+            padding: 2.5rem;
+            max-width: 440px;
+            margin: 3rem auto;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.04), 0 8px 32px rgba(26,71,42,0.08);
+            border: 1px solid rgba(201,168,76,0.2);
+        }
+
+        .connexion-titre {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.8rem;
+            color: var(--vert);
+            text-align: center;
+            margin-bottom: 0.3rem;
+        }
+
+        .connexion-sous {
+            text-align: center;
+            color: var(--gris);
+            font-size: 0.88rem;
+            margin-bottom: 2rem;
+        }
+
+        .groupe { margin-bottom: 1.2rem; }
+
+        label {
+            display: block;
+            font-size: 0.82rem;
+            font-weight: 500;
+            color: var(--vert);
+            margin-bottom: 0.4rem;
+            text-transform: uppercase;
+            letter-spacing: 0.04em;
+        }
+
+        input[type="email"],
+        input[type="text"],
+        input[type="password"] {
+            width: 100%;
+            padding: 0.8rem 1rem;
+            border: 1.5px solid #e0ddd6;
+            border-radius: 10px;
+            font-family: 'DM Sans', sans-serif;
+            font-size: 0.95rem;
+            color: var(--texte);
+            background: #fdfcfa;
+            outline: none;
+            transition: border-color 0.2s, box-shadow 0.2s;
+        }
+
+        input:focus {
+            border-color: var(--or);
+            box-shadow: 0 0 0 3px rgba(201,168,76,0.12);
+            background: white;
+        }
+
+        .input-code {
+            font-size: 1rem;
+            font-weight: 600;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+        }
+
+        .btn-principal {
+            width: 100%;
+            padding: 0.9rem;
+            background: linear-gradient(135deg, var(--vert) 0%, var(--vert2) 100%);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-family: 'DM Sans', sans-serif;
+            font-size: 0.95rem;
+            font-weight: 500;
+            cursor: pointer;
+            margin-top: 0.5rem;
+            transition: transform 0.15s, box-shadow 0.15s;
+        }
+
+        .btn-principal:hover { transform: translateY(-1px); box-shadow: 0 4px 16px rgba(26,71,42,0.25); }
+        .btn-principal:disabled { opacity: 0.6; cursor: not-allowed; transform: none; }
+
+        /* ── Sections compte ── */
+        .section-titre {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.5rem;
+            color: var(--vert);
+            margin-bottom: 1rem;
+        }
+
+        .carte {
+            background: white;
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            border: 1px solid rgba(201,168,76,0.2);
+            box-shadow: 0 1px 4px rgba(0,0,0,0.04);
+        }
+
+        .carte h3 {
+            font-size: 1rem;
+            font-weight: 600;
+            color: var(--vert);
+            margin-bottom: 1rem;
+        }
+
+        .info-club {
+            font-size: 0.9rem;
+            color: var(--gris);
+            margin-bottom: 0.3rem;
+        }
+
+        .info-club strong { color: var(--texte); }
+
+        .code-badge {
+            display: inline-block;
+            background: rgba(26,71,42,0.08);
+            color: var(--vert);
+            font-size: 1.2rem;
+            font-weight: 700;
+            letter-spacing: 0.1em;
+            padding: 0.4rem 1rem;
+            border-radius: 8px;
+            margin: 0.5rem 0 1rem;
+        }
+
+        .row-input {
+            display: flex;
+            gap: 0.8rem;
+            align-items: flex-end;
+        }
+
+        .row-input .groupe { flex: 1; margin-bottom: 0; }
+
+        .btn-action {
+            padding: 0.8rem 1.2rem;
+            border: none;
+            border-radius: 8px;
+            font-family: 'DM Sans', sans-serif;
+            font-size: 0.88rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: opacity 0.15s;
+            white-space: nowrap;
+        }
+
+        .btn-vert  { background: var(--vert); color: white; }
+        .btn-rouge { background: var(--rouge); color: white; }
+        .btn-orange { background: var(--orange); color: white; }
+        .btn-action:hover { opacity: 0.85; }
+
+        /* ── Tableau adhérents ── */
+        table.adherents {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.88rem;
+        }
+
+        table.adherents th {
+            background: var(--vert);
+            color: white;
+            padding: 0.6rem 0.8rem;
+            text-align: left;
+            font-size: 0.78rem;
+            text-transform: uppercase;
+            letter-spacing: 0.04em;
+        }
+
+        table.adherents td {
+            padding: 0.7rem 0.8rem;
+            border-bottom: 1px solid #f0ede6;
+            vertical-align: middle;
+        }
+
+        table.adherents tr:last-child td { border-bottom: none; }
+        table.adherents tr:hover td { background: #fafaf7; }
+
+        .badge-actif    { background: #e8f5e9; color: #2e7d32; padding: 2px 8px; border-radius: 12px; font-size: 0.78rem; font-weight: 600; }
+        .badge-inactif  { background: #fbe9e7; color: #c62828; padding: 2px 8px; border-radius: 12px; font-size: 0.78rem; font-weight: 600; }
+
+        .actions-td { display: flex; gap: 0.4rem; flex-wrap: wrap; }
+
+        .btn-sm {
+            padding: 0.3rem 0.7rem;
+            border: none;
+            border-radius: 6px;
+            font-size: 0.78rem;
+            font-weight: 500;
+            cursor: pointer;
+            font-family: 'DM Sans', sans-serif;
+            transition: opacity 0.15s;
+        }
+
+        .btn-sm:hover { opacity: 0.8; }
+        .btn-sm-vert   { background: var(--vert); color: white; }
+        .btn-sm-rouge  { background: var(--rouge); color: white; }
+        .btn-sm-orange { background: var(--orange); color: white; }
+        .btn-sm-gris   { background: #90a4ae; color: white; }
+
+        .msg-inline {
+            font-size: 0.82rem;
+            padding: 0.5rem 0.8rem;
+            border-radius: 6px;
+            margin-top: 0.5rem;
+            display: none;
+        }
+
+        .msg-ok  { display: block; background: #f0f7f2; color: #2e7d32; border: 1px solid #b8ddc4; }
+        .msg-err { display: block; background: #fdf2f2; color: var(--rouge); border: 1px solid #f5c6c6; }
+
+        .chargement { text-align: center; padding: 2rem; color: var(--gris); }
+
+        /* ── Modal mot de passe ── */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(0,0,0,0.5);
+            z-index: 100;
+            align-items: center;
+            justify-content: center;
+            padding: 1rem;
+        }
+
+        .modal-overlay.visible { display: flex; }
+
+        .modal {
+            background: white;
+            border-radius: 14px;
+            padding: 1.8rem;
+            max-width: 400px;
+            width: 100%;
+        }
+
+        .modal h3 { color: var(--vert); margin-bottom: 1rem; }
+
+        .modal-actions { display: flex; gap: 0.8rem; margin-top: 1rem; justify-content: flex-end; }
+
+        #section-connexion { display: block; }
+        #section-compte    { display: none; }
+
+        /* ── Tournois terminés ── */
+        .tournoi-public {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0.7rem 0.8rem;
+            border-bottom: 1px solid #f0ede6;
+            font-size: 0.88rem;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+        }
+        .tournoi-public:last-child { border-bottom: none; }
+        .btn-copier {
+            padding: 0.3rem 0.8rem;
+            background: rgba(26,71,42,0.08);
+            color: var(--vert);
+            border: 1px solid rgba(26,71,42,0.2);
+            border-radius: 6px;
+            font-size: 0.78rem;
+            font-weight: 500;
+            cursor: pointer;
+            white-space: nowrap;
+            transition: background 0.15s;
+        }
+        .btn-copier:hover { background: rgba(26,71,42,0.15); }
+        .btn-copier.copie { background: #e8f5e9; color: #2e7d32; border-color: #b8ddc4; }
+    </style>
+</head>
+<body>
+
+<div class="header">
+    <div class="header-titre">🃏 Mon Compte Club</div>
+    <button class="btn-deco" id="btn-deco" onclick="deconnecter()" style="display:none">Déconnexion</button>
+</div>
+
+<div class="main">
+
+    <!-- ── Connexion ── -->
+    <div id="section-connexion">
+        <div class="carte-connexion">
+            <div class="connexion-titre">Espace club</div>
+            <p class="connexion-sous">Gérez votre compte et vos adhérents</p>
+
+            <div id="msg-connexion" style="display:none;padding:0.8rem;border-radius:8px;margin-bottom:1rem;font-size:0.88rem;"></div>
+
+            <div class="groupe">
+                <label for="email">Email</label>
+                <input type="email" id="email" autocomplete="email">
+            </div>
+            <div class="groupe">
+                <label for="mdp">Mot de passe</label>
+                <div style="position:relative">
+                    <input type="password" id="mdp" style="width:100%;box-sizing:border-box;padding-right:2.8rem;height:3rem;line-height:normal">
+                    <span onclick="toggleMdp('mdp',this)" style="position:absolute;right:0.75rem;top:0;bottom:0;display:flex;align-items:center;cursor:pointer;font-size:1.1rem;user-select:none">👁</span>
+                </div>
+            </div>
+            <button class="btn-principal" onclick="seConnecter()">Se connecter</button>
+			 <!-- lien discret avec filet séparateur -->
+			<div style="display:flex;align-items:center;gap:0.75rem;margin-top:1.2rem">
+				<span style="flex:1;height:1px;background:linear-gradient(to right,transparent,rgba(201,168,76,0.3),transparent)"></span>
+				<a href="mdp_oublie_club.html" style="font-size:0.82rem;color:#6b6b6b;text-decoration:none;white-space:nowrap;transition:color 0.2s"
+				   onmouseover="this.style.color='#1a472a'" onmouseout="this.style.color='#6b6b6b'">
+					Mot de passe oublié ?
+				</a>
+				<span style="flex:1;height:1px;background:linear-gradient(to right,rgba(201,168,76,0.3),transparent)"></span>
+			</div>
+        </div>
+		
+    </div>
+
+    <!-- ── Compte ── -->
+    <div id="section-compte">
+
+        <!-- Infos club -->
+        <div class="carte">
+            <h3>🏛️ Informations du club</h3>
+            <p class="info-club">ID club : <strong id="info-id" style="font-family:monospace;color:var(--vert)">—</strong> <span style="font-size:0.75rem;color:var(--gris)">(à communiquer pour dépannage)</span></p>
+            <p class="info-club">Nom : <strong id="info-nom">—</strong></p>
+            <p class="info-club">Email : <strong id="info-email">—</strong></p>
+            <p class="info-club">Tournois joués : <strong id="info-tournois">—</strong></p>
+        </div>
+
+        <!-- Code adhérent -->
+        <div class="carte">
+            <h3>🔑 Code adhérent</h3>
+            <p style="font-size:0.88rem;color:var(--gris);margin-bottom:0.5rem">Ce code permet à vos membres de créer leur compte sur le site.</p>
+            <div class="code-badge" id="code-actuel">—</div>
+
+            <div class="row-input">
+                <div class="groupe">
+                    <label for="nouveau-code">Nouveau code</label>
+                    <input type="text" id="nouveau-code" class="input-code" minlength="4" autocomplete="off">
+                </div>
+                <button class="btn-action btn-vert" onclick="changerCode()">Enregistrer</button>
+            </div>
+            <div id="msg-code" class="msg-inline"></div>
+        </div>
+
+        <!-- Code externe -->
+        <div class="carte">
+            <h3>🌐 Code externe</h3>
+            <p style="font-size:0.88rem;color:var(--gris);margin-bottom:0.5rem">Ce code permet à des joueurs extérieurs au club de créer un compte pour consulter vos résultats.</p>
+            <div class="code-badge" id="code-externe-actuel">—</div>
+
+            <div class="row-input">
+                <div class="groupe">
+                    <label for="nouveau-code-externe">Nouveau code externe</label>
+                    <input type="text" id="nouveau-code-externe" class="input-code" minlength="4" autocomplete="off">
+                </div>
+                <button class="btn-action btn-vert" onclick="changerCodeExterne()">Enregistrer</button>
+            </div>
+            <div id="msg-code-externe" class="msg-inline"></div>
+        </div>
+
+        <!-- Liste joueurs -->
+        <div class="carte">
+            <h3>👥 Membres du club &amp; Externes</h3>
+
+            <!-- Formulaire ajout rapide -->
+            <div style="display:flex;gap:0.8rem;margin-bottom:1rem;flex-wrap:wrap;align-items:flex-end">
+                <div class="groupe" style="flex:1;min-width:120px;margin-bottom:0">
+                    <label for="new-nom">Nom</label>
+                    <input type="text" id="new-nom">
+                </div>
+                <div class="groupe" style="flex:1;min-width:120px;margin-bottom:0">
+                    <label for="new-prenom">Prénom</label>
+                    <input type="text" id="new-prenom">
+                </div>
+                <button class="btn-action btn-vert" onclick="ajouterJoueur()">+ Ajouter</button>
+            </div>
+            <div id="msg-ajout" class="msg-inline" style="margin-bottom:0.8rem"></div>
+
+            <div id="liste-adherents"><div class="chargement">Chargement...</div></div>
+        </div>
+
+        <!-- Tournois terminés -->
+        <div class="carte">
+            <h3>🏆 Tournois terminés</h3>
+            <p style="font-size:0.88rem;color:var(--gris);margin-bottom:1rem">Partagez le lien public avec vos joueurs pour qu'ils consultent les résultats sans créer de compte.</p>
+            <div id="liste-tournois"><div class="chargement">Chargement...</div></div>
+        </div>
+
+    </div>
+
+</div>
+
+<!-- Modal réinitialisation mot de passe -->
+<div class="modal-overlay" id="modal-mdp" onclick="fermerModal(event)">
+    <div class="modal">
+        <h3>🔐 Nouveau mot de passe</h3>
+        <p style="font-size:0.88rem;color:var(--gris);margin-bottom:1rem" id="modal-nom-adherent"></p>
+        <div class="groupe">
+            <label>Nouveau mot de passe</label>
+            <input type="password" id="modal-mdp-input" minlength="6">
+        </div>
+        <div id="msg-modal" class="msg-inline"></div>
+        <div class="modal-actions">
+            <button class="btn-action btn-gris" style="background:#90a4ae;color:white" onclick="fermerModal()">Annuler</button>
+            <button class="btn-action btn-vert" onclick="confirmerMdp()">Confirmer</button>
+        </div>
+    </div>
+</div>
+
+<script>
+function toggleMdp(id, btn) {
+    const input = document.getElementById(id);
+    const visible = input.getAttribute('data-visible') === '1';
+    if (visible) {
+        input.setAttribute('type', 'password');
+        input.setAttribute('data-visible', '0');
+        btn.textContent = '👁';
+    } else {
+        input.setAttribute('type', 'text');
+        input.setAttribute('data-visible', '1');
+        btn.textContent = '🙈';
+    }
+}
+
+let tokenClub = '';
+let idAdherentMdp = 0;
+
+// Connexion club
+async function seConnecter() {
+    const email = document.getElementById('email').value.trim();
+    const mdp   = document.getElementById('mdp').value;
+    const msg   = document.getElementById('msg-connexion');
+
+    if (!email || !mdp) { afficherMsgConnexion('❌ Email et mot de passe obligatoires', false); return; }
+
+    try {
+        const resp = await fetch('api_club.php?action=connexion', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ email, mdp })
+        });
+        const data = await resp.json();
+
+        if (data.etat === 'OK') {
+            tokenClub = data.token;
+            document.getElementById('section-connexion').style.display = 'none';
+            document.getElementById('section-compte').style.display    = 'block';
+            document.getElementById('btn-deco').style.display          = 'block';
+            document.getElementById('info-nom').textContent      = data.nom;
+            document.getElementById('info-email').textContent    = email;
+            document.getElementById('info-id').textContent       = data.idAssociation;
+            document.getElementById('info-tournois').textContent = data.nbre_tournois_joues + ' / ' + data.nbre_tournois_max;
+            document.getElementById('code-actuel').textContent        = data.code_adherent || '(aucun)';
+            document.getElementById('nouveau-code').value              = data.code_adherent || '';
+            document.getElementById('code-externe-actuel').textContent = data.code_externe  || '(aucun)';
+            document.getElementById('nouveau-code-externe').value      = data.code_externe  || '';
+            chargerAdherents();
+            chargerTournois();
+        } else {
+            afficherMsgConnexion('❌ Email ou mot de passe incorrect', false);
+        }
+    } catch(e) {
+        afficherMsgConnexion('❌ Erreur de connexion', false);
+    }
+}
+
+
+
+// Changer le code externe
+async function changerCodeExterne() {
+    const code = document.getElementById('nouveau-code-externe').value.trim().toUpperCase();
+    const msg  = document.getElementById('msg-code-externe');
+    msg.className = 'msg-inline';
+
+    if (code.length < 4) { afficherMsg(msg, '❌ Minimum 4 caractères', false); return; }
+
+    const resp = await fetch('api_club.php?action=majCodeExterne&token=' + tokenClub, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ code_externe: code })
+    });
+    const data = await resp.json();
+
+    if (data.etat === 'OK') {
+        document.getElementById('code-externe-actuel').textContent = code;
+        afficherMsg(msg, '✅ Code externe mis à jour avec succès', true);
+    } else if (data.etat === 'CODE_EXISTE') {
+        afficherMsg(msg, '❌ Ce code est déjà utilisé par un autre club', false);
+    } else {
+        afficherMsg(msg, '❌ Erreur serveur', false);
+    }
+}
+
+// Changer le code adhérent
+async function changerCode() {
+    const code = document.getElementById('nouveau-code').value.trim().toUpperCase();
+    const msg  = document.getElementById('msg-code');
+    msg.className = 'msg-inline';
+
+    if (code.length < 4) { afficherMsg(msg, '❌ Minimum 4 caractères', false); return; }
+
+    const resp = await fetch('api_club.php?action=majCode&token=' + tokenClub, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ code_adherent: code })
+    });
+    const data = await resp.json();
+
+    if (data.etat === 'OK') {
+        document.getElementById('code-actuel').textContent = code;
+        afficherMsg(msg, '✅ Code mis à jour avec succès', true);
+    } else if (data.etat === 'CODE_EXISTE') {
+        afficherMsg(msg, '❌ Ce code est déjà utilisé par un autre club', false);
+    } else {
+        afficherMsg(msg, '❌ Erreur serveur', false);
+    }
+}
+
+// Charger les tournois terminés avec leurs liens publics
+async function chargerTournois() {
+    const container = document.getElementById('liste-tournois');
+    container.innerHTML = '<div class="chargement">Chargement...</div>';
+    try {
+        const resp = await fetch('api_club.php?action=tournois&token=' + tokenClub);
+        const data = await resp.json();
+        if (!data.tournois || data.tournois.length === 0) {
+            container.innerHTML = '<p style="color:var(--gris);font-size:0.88rem">Aucun tournoi terminé pour l\'instant.</p>';
+            return;
+        }
+        container.innerHTML = '';
+        data.tournois.forEach(t => {
+            if (!t.token_public) return;
+            const base = window.location.href.replace('mon_compte.html', 'resultats_tournoi.html');
+            const lien = `${base}?id=${t.ID}&tokenPublic=${t.token_public}`;
+            const div = document.createElement('div');
+            div.className = 'tournoi-public';
+            div.innerHTML = `
+                <div>
+                    <span style="font-weight:500">${t.date}</span>
+                    <span style="color:var(--gris);font-size:0.82rem;margin-left:0.5rem">${t.type.replace(/_/g,' ')} — ${t.nbre_equipe} équipes</span>
+                </div>
+                <button class="btn-copier" onclick="copierLien(this, '${lien}')">📋 Copier le lien</button>
+            `;
+            container.appendChild(div);
+        });
+    } catch(e) {
+        container.innerHTML = '<p style="color:var(--rouge);font-size:0.88rem">❌ Erreur de chargement.</p>';
+    }
+}
+
+function copierLien(btn, lien) {
+    navigator.clipboard.writeText(lien).then(() => {
+        btn.textContent = '✅ Lien copié !';
+        btn.classList.add('copie');
+        setTimeout(() => { btn.textContent = '📋 Copier le lien'; btn.classList.remove('copie'); }, 2000);
+    }).catch(() => {
+        prompt('Copiez ce lien :', lien);
+    });
+}
+
+// Charger la liste des adhérents (séparés en Membres et Externes)
+async function chargerAdherents() {
+    const container = document.getElementById('liste-adherents');
+    container.innerHTML = '<div class="chargement">Chargement...</div>';
+
+    const resp = await fetch('api_club.php?action=adherents&token=' + tokenClub);
+    const data = await resp.json();
+
+    if (!data.adherents || data.adherents.length === 0) {
+        container.innerHTML = '<p style="color:var(--gris);font-size:0.88rem">Aucun adhérent inscrit pour l\'instant.</p>';
+        return;
+    }
+
+    const membres  = data.adherents.filter(a => a.type !== 'externe');
+    const externes = data.adherents.filter(a => a.type === 'externe');
+
+    function buildTable(liste) {
+        if (liste.length === 0) return '<p style="color:var(--gris);font-size:0.85rem;margin:0.4rem 0 0.8rem">Aucun.</p>';
+        let html = `<table class="adherents"><thead><tr>
+            <th>Nom</th><th>Prénom</th><th>Email</th><th>Statut</th><th>Actions</th>
+        </tr></thead><tbody>`;
+        liste.forEach(a => {
+            const actif   = a.actif == 1;
+            const aCompte = a.email !== null && a.email !== '';
+            const badgeClass = actif ? 'badge-actif' : 'badge-inactif';
+            const badgeTexte = actif ? 'Actif' : 'Inactif';
+            html += `<tr>
+                <td>${a.nom}</td>
+                <td>${a.prenom}</td>
+                <td>${a.email || '<span style="color:var(--gris);font-style:italic">—</span>'}</td>
+                <td><span class="${badgeClass}">${badgeTexte}</span></td>
+                <td>
+                    <div class="actions-td">
+                        <button class="btn-sm ${actif ? 'btn-sm-gris' : 'btn-sm-vert'}"
+                            onclick="toggleActif(${a.id}, ${actif ? 0 : 1})">
+                            ${actif ? 'Désactiver' : 'Activer'}
+                        </button>
+                        ${aCompte ? `
+                        <button class="btn-sm btn-sm-orange"
+                            onclick="ouvrirModalMdp(${a.id}, '${a.prenom} ${a.nom}')">
+                            🔐 Mdp
+                        </button>` : ''}
+                        <button class="btn-sm btn-sm-rouge"
+                            onclick="supprimerJoueur(${a.id}, '${a.prenom} ${a.nom}', ${aCompte})">
+                            🗑 Supprimer
+                        </button>
+                    </div>
+                </td>
+            </tr>`;
+        });
+        return html + '</tbody></table>';
+    }
+
+    let html = '<h4 style="color:var(--vert);margin:0 0 0.5rem;font-size:0.95rem">👤 Membres du club</h4>';
+    html += buildTable(membres);
+    html += '<h4 style="color:var(--orange);margin:1.2rem 0 0.5rem;font-size:0.95rem">🌐 Joueurs externes</h4>';
+    html += buildTable(externes);
+
+    container.innerHTML = html;
+}
+
+// Ajouter un joueur
+async function ajouterJoueur() {
+    const nom    = document.getElementById('new-nom').value.trim().toUpperCase();
+    const prenom = document.getElementById('new-prenom').value.trim();
+    const msg    = document.getElementById('msg-ajout');
+    msg.className = 'msg-inline';
+
+    if (!nom || !prenom) { afficherMsg(msg, '❌ Nom et prénom obligatoires', false); return; }
+
+    const resp = await fetch('api_club.php?action=ajouterJoueur&token=' + tokenClub, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ nom, prenom })
+    });
+    const data = await resp.json();
+    if (data.etat === 'OK') {
+        afficherMsg(msg, '✅ Joueur ajouté', true);
+        document.getElementById('new-nom').value   = '';
+        document.getElementById('new-prenom').value = '';
+        chargerAdherents();
+    } else {
+        afficherMsg(msg, '❌ Erreur lors de l\'ajout', false);
+    }
+}
+
+// Supprimer un joueur (avec ou sans compte)
+async function supprimerJoueur(id, nom, aCompte) {
+    const msg = aCompte
+        ? `Supprimer ${nom} ? Son compte adhérent sera aussi supprimé.`
+        : `Supprimer le joueur ${nom} ?`;
+    if (!confirm(msg)) return;
+    const resp = await fetch('api_club.php?action=supprimer&token=' + tokenClub, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ id })
+    });
+    const data = await resp.json();
+    if (data.etat === 'OK') chargerAdherents();
+    else alert('Erreur lors de la suppression');
+}
+
+// Activer / Désactiver
+async function toggleActif(idAdherent, nouvelEtat) {
+    const resp = await fetch('api_club.php?action=toggleActif&token=' + tokenClub, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ id: idAdherent, actif: nouvelEtat })
+    });
+    const data = await resp.json();
+    if (data.etat === 'OK') chargerAdherents();
+    else alert('Erreur lors de la mise à jour');
+}
+
+// Supprimer adhérent
+async function supprimerAdherent(idAdherent, nom) {
+    if (!confirm(`Supprimer le compte de ${nom} ? Cette action est irréversible.`)) return;
+    const resp = await fetch('api_club.php?action=supprimer&token=' + tokenClub, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ id: idAdherent })
+    });
+    const data = await resp.json();
+    if (data.etat === 'OK') chargerAdherents();
+    else alert('Erreur lors de la suppression');
+}
+
+// Modal mot de passe
+function ouvrirModalMdp(idAdherent, nom) {
+    idAdherentMdp = idAdherent;
+    document.getElementById('modal-nom-adherent').textContent = 'Adhérent : ' + nom;
+    document.getElementById('modal-mdp-input').value = '';
+    document.getElementById('msg-modal').className = 'msg-inline';
+    document.getElementById('modal-mdp').classList.add('visible');
+}
+
+function fermerModal(e) {
+    if (!e || e.target === document.getElementById('modal-mdp') || e.target.className.includes('btn-gris')) {
+        document.getElementById('modal-mdp').classList.remove('visible');
+    }
+}
+
+async function confirmerMdp() {
+    const mdp = document.getElementById('modal-mdp-input').value;
+    const msg = document.getElementById('msg-modal');
+    if (mdp.length < 6) { afficherMsg(msg, '❌ Minimum 6 caractères', false); return; }
+
+    const resp = await fetch('api_club.php?action=resetMdp&token=' + tokenClub, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ id: idAdherentMdp, mdp })
+    });
+    const data = await resp.json();
+    if (data.etat === 'OK') {
+        afficherMsg(msg, '✅ Mot de passe mis à jour', true);
+        setTimeout(() => fermerModal(), 1500);
+    } else {
+        afficherMsg(msg, '❌ Erreur serveur', false);
+    }
+}
+
+function deconnecter() {
+    tokenClub = '';
+    document.getElementById('section-connexion').style.display = 'block';
+    document.getElementById('section-compte').style.display    = 'none';
+    document.getElementById('btn-deco').style.display          = 'none';
+    document.getElementById('email').value = '';
+    document.getElementById('mdp').value   = '';
+}
+
+function afficherMsg(el, texte, ok) {
+    el.textContent  = texte;
+    el.className    = 'msg-inline ' + (ok ? 'msg-ok' : 'msg-err');
+}
+
+function afficherMsgConnexion(texte, ok) {
+    const el = document.getElementById('msg-connexion');
+    el.textContent   = texte;
+    el.style.display = 'block';
+    el.style.background = ok ? '#f0f7f2' : '#fdf2f2';
+    el.style.color      = ok ? '#2e7d32' : '#c0392b';
+    el.style.border     = ok ? '1px solid #b8ddc4' : '1px solid #f5c6c6';
+    el.style.borderRadius = '8px';
+    el.style.padding = '0.8rem';
+}
+
+document.getElementById('nouveau-code').addEventListener('input', function() {
+    this.value = this.value.toUpperCase();
+});
+document.getElementById('nouveau-code-externe').addEventListener('input', function() {
+    this.value = this.value.toUpperCase();
+});
+
+document.addEventListener('keydown', e => {
+    if (e.key === 'Enter' && document.getElementById('section-connexion').style.display !== 'none') seConnecter();
+});
+</script>
+</body>
+</html>

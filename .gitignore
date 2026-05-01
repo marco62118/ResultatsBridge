@@ -1,0 +1,27 @@
+# ── Android ──────────────────────────────────
+android/.gradle/
+android/build/
+android/app/build/
+android/local.properties
+android/**/*.apk
+android/**/*.aab
+android/**/*.keystore
+android/.kotlin/
+
+# ── Web — dossiers de sauvegarde obsolètes ───
+web/asso1/
+web/asso2/
+web/asso3/
+web/asso avec mitchell - Copie/
+web/asso avec mitchell - Copie avant changement connexion/
+web/asso avec mitchell - Copie avant token public/
+
+# ── Web — fichiers sensibles ─────────────────
+**/config.php
+**/*.log
+**/logs/
+
+# ── Divers ────────────────────────────────────
+.DS_Store
+Thumbs.db
+*.tmp

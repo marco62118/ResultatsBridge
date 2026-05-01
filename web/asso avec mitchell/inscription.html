@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inscription — Tournoi Bridge Online</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --vert:  #1a472a;
+            --vert2: #2d6a4f;
+            --or:    #c9a84c;
+            --creme: #f8f4ec;
+            --texte: #1c1c1c;
+            --gris:  #6b6b6b;
+            --rouge: #c0392b;
+            --succes:#1a472a;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'DM Sans', sans-serif;
+            background: var(--creme);
+            color: var(--texte);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+            background-image:
+                radial-gradient(ellipse at 20% 50%, rgba(26,71,42,0.06) 0%, transparent 60%),
+                radial-gradient(ellipse at 80% 20%, rgba(201,168,76,0.08) 0%, transparent 50%);
+        }
+
+        .container { width: 100%; max-width: 520px; }
+
+        .entete { text-align: center; margin-bottom: 2.5rem; }
+        .logo { font-size: 2.5rem; margin-bottom: 0.5rem; }
+        .entete h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 2rem;
+            color: var(--vert);
+            line-height: 1.2;
+            margin-bottom: 0.5rem;
+        }
+        .entete p { color: var(--gris); font-size: 0.95rem; font-weight: 300; }
+
+        .carte {
+            background: white;
+            border-radius: 16px;
+            padding: 2.5rem;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.04), 0 8px 32px rgba(26,71,42,0.08);
+            border: 1px solid rgba(201,168,76,0.2);
+        }
+
+        .groupe { margin-bottom: 1.5rem; }
+
+        label {
+            display: block;
+            font-size: 0.85rem;
+            font-weight: 500;
+            color: var(--vert);
+            margin-bottom: 0.4rem;
+            letter-spacing: 0.02em;
+            text-transform: uppercase;
+        }
+
+        input[type="email"],
+        input[type="text"],
+        input[type="password"] {
+            width: 100%;
+            padding: 0.85rem 1rem;
+            border: 1.5px solid #e0ddd6;
+            border-radius: 10px;
+            font-family: 'DM Sans', sans-serif;
+            font-size: 1rem;
+            color: var(--texte);
+            background: #fdfcfa;
+            transition: border-color 0.2s, box-shadow 0.2s;
+            outline: none;
+        }
+
+        input:focus {
+            border-color: var(--or);
+            box-shadow: 0 0 0 3px rgba(201,168,76,0.12);
+            background: white;
+        }
+
+        input::placeholder { color: #b8b4ac; }
+
+        /* Champ code invitation avec style spécial */
+        .input-code {
+            font-family: 'DM Sans', sans-serif;
+            font-size: 1.1rem;
+            font-weight: 500;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            border-color: rgba(201,168,76,0.4);
+            background: rgba(201,168,76,0.04);
+        }
+
+        .input-code:focus {
+            border-color: var(--or);
+            background: rgba(201,168,76,0.06);
+        }
+
+        .aide { font-size: 0.8rem; color: var(--gris); margin-top: 0.35rem; }
+
+        .separateur {
+            height: 1px;
+            background: linear-gradient(to right, transparent, rgba(201,168,76,0.3), transparent);
+            margin: 1.5rem 0;
+        }
+
+        .bouton {
+            width: 100%;
+            padding: 1rem;
+            background: linear-gradient(135deg, var(--vert) 0%, var(--vert2) 100%);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-family: 'DM Sans', sans-serif;
+            font-size: 1rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: transform 0.15s, box-shadow 0.15s;
+            letter-spacing: 0.02em;
+        }
+
+        .bouton:hover { transform: translateY(-1px); box-shadow: 0 4px 16px rgba(26,71,42,0.25); }
+        .bouton:active { transform: translateY(0); }
+        .bouton:disabled { opacity: 0.6; cursor: not-allowed; transform: none; }
+
+        .message {
+            display: none;
+            padding: 1rem 1.2rem;
+            border-radius: 10px;
+            font-size: 0.9rem;
+            margin-bottom: 1.5rem;
+            line-height: 1.5;
+        }
+
+        .message.erreur  { display: block; background: #fdf2f2; border: 1px solid #f5c6c6; color: var(--rouge); }
+        .message.succes  { display: block; background: #f0f7f2; border: 1px solid #b8ddc4; color: var(--succes); }
+
+        .note {
+            text-align: center;
+            margin-top: 1.5rem;
+            font-size: 0.82rem;
+            color: var(--gris);
+            line-height: 1.6;
+        }
+
+        .note strong { color: var(--vert); }
+
+        .accroche {
+            display: flex;
+            align-items: flex-start;
+            gap: 0.5rem;
+            background: rgba(201,168,76,0.08);
+            border: 1px solid rgba(201,168,76,0.25);
+            border-radius: 10px;
+            padding: 0.9rem 1rem;
+            margin-bottom: 1.5rem;
+            font-size: 0.88rem;
+            color: #7a6020;
+            line-height: 1.5;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="entete">
+        <div class="logo">🃏</div>
+        <h1>Tournoi Bridge Online</h1>
+        <p>Inscription d'un nouveau club</p>
+    </div>
+
+    <div class="carte">
+        <div class="accroche">
+            🔑 Un code d'invitation est nécessaire pour s'inscrire. Contactez l'administrateur pour l'obtenir.
+        </div>
+
+        <div id="message" class="message"></div>
+
+        <form id="formInscription">
+
+            <div class="groupe">
+                <label for="code">Code d'invitation</label>
+                <input type="text" id="code" name="code"
+                    class="input-code"
+                   
+                    required
+                    autocomplete="off">
+                <p class="aide">Code fourni par l'administrateur.</p>
+            </div>
+
+            <div class="separateur"></div>
+
+            <div class="groupe">
+                <label for="nom">Nom du club</label>
+                <input type="text" id="nom" name="nom"
+                    required>
+            </div>
+
+            <div class="groupe">
+                <label for="email">Email de l'organisateur</label>
+                <input type="email" id="email" name="email"
+                    required>
+                <p class="aide">Cet email servira à vous connecter à l'application.</p>
+            </div>
+
+            <div class="separateur"></div>
+
+            <div class="groupe">
+                <label for="mdp">Mot de passe</label>
+                <div style="position:relative">
+                    <input type="password" id="mdp" name="mdp" required minlength="6" style="width:100%;box-sizing:border-box;padding-right:2.8rem;height:3rem;line-height:normal">
+                    <span onclick="toggleMdp('mdp',this)" style="position:absolute;right:0.75rem;top:0;bottom:0;display:flex;align-items:center;cursor:pointer;font-size:1.1rem;user-select:none">👁</span>
+                </div>
+            </div>
+
+            <div class="groupe">
+                <label for="mdp2">Confirmer le mot de passe</label>
+                <div style="position:relative">
+                    <input type="password" id="mdp2" name="mdp2" required minlength="6" style="width:100%;box-sizing:border-box;padding-right:2.8rem;height:3rem;line-height:normal">
+                    <span onclick="toggleMdp('mdp2',this)" style="position:absolute;right:0.75rem;top:0;bottom:0;display:flex;align-items:center;cursor:pointer;font-size:1.1rem;user-select:none">👁</span>
+                </div>
+            </div>
+
+            <div class="separateur"></div>
+
+            <div class="groupe">
+                <label for="code_adherent">Code adhérent</label>
+                <input type="text" id="code_adherent" name="code_adherent"
+                    class="input-code"
+                   
+                    required minlength="4"
+                    autocomplete="off">
+                <p class="aide">Choisissez un code que vous donnerez à vos joueurs pour qu'ils créent leur compte. Minimum 4 caractères.</p>
+            </div>
+
+            <button type="submit" class="bouton" id="btnSubmit">
+                Créer mon compte club
+            </button>
+
+        </form>
+
+        <p class="note">
+            Votre compte sera activé immédiatement après inscription.<br>
+            Vous pourrez ensuite créer vos tournois depuis l'application <strong>TournoiBridgeOnline</strong>.
+        </p>
+    </div>
+</div>
+
+<script>
+function toggleMdp(id, btn) {
+    const input = document.getElementById(id);
+    const visible = input.getAttribute('data-visible') === '1';
+    if (visible) {
+        input.setAttribute('type', 'password');
+        input.setAttribute('data-visible', '0');
+        btn.textContent = '👁';
+    } else {
+        input.setAttribute('type', 'text');
+        input.setAttribute('data-visible', '1');
+        btn.textContent = '🙈';
+    }
+}
+document.getElementById('code').addEventListener('input', function() {
+    this.value = this.value.toUpperCase();
+});
+document.getElementById('code_adherent').addEventListener('input', function() {
+    this.value = this.value.toUpperCase();
+});
+
+document.getElementById('formInscription').addEventListener('submit', async function(e) {
+    e.preventDefault();
+
+    const code          = document.getElementById('code').value.trim().toUpperCase();
+    const nom           = document.getElementById('nom').value.trim();
+    const email         = document.getElementById('email').value.trim();
+    const mdp           = document.getElementById('mdp').value;
+    const mdp2          = document.getElementById('mdp2').value;
+    const codeAdherent  = document.getElementById('code_adherent').value.trim().toUpperCase();
+    const msg           = document.getElementById('message');
+    const btn           = document.getElementById('btnSubmit');
+
+    msg.className = 'message';
+    msg.textContent = '';
+
+    if (mdp !== mdp2) {
+        msg.className = 'message erreur';
+        msg.textContent = '❌ Les mots de passe ne correspondent pas.';
+        return;
+    }
+
+    if (mdp.length < 6) {
+        msg.className = 'message erreur';
+        msg.textContent = '❌ Le mot de passe doit contenir au moins 6 caractères.';
+        return;
+    }
+
+    if (codeAdherent.length < 4) {
+        msg.className = 'message erreur';
+        msg.textContent = '❌ Le code adhérent doit contenir au moins 4 caractères.';
+        return;
+    }
+
+    btn.disabled = true;
+    btn.textContent = 'Création en cours...';
+
+    try {
+        const response = await fetch('traitement_inscription.php', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ code, nom, email, mdp, code_adherent: codeAdherent })
+        });
+
+        const data = await response.json();
+
+        if (data.etat === 'OK') {
+            msg.className = 'message succes';
+            msg.textContent = '✅ Compte créé ! Vous pouvez maintenant vous connecter à l\'application.';
+            document.getElementById('formInscription').reset();
+        } else if (data.etat === 'CODE_INVALIDE') {
+            msg.className = 'message erreur';
+            msg.textContent = '❌ Code d\'invitation invalide ou expiré.';
+        } else if (data.etat === 'EXISTE_DEJA') {
+            msg.className = 'message erreur';
+            msg.textContent = '❌ Cet email est déjà inscrit.';
+        } else if (data.etat === 'CODE_ADHERENT_EXISTE') {
+            msg.className = 'message erreur';
+            msg.textContent = '❌ Ce code adhérent est déjà utilisé par un autre club. Choisissez-en un autre.';
+        } else {
+            msg.className = 'message erreur';
+            msg.textContent = '❌ Erreur : ' + (data.message || 'Veuillez réessayer.');
+        }
+    } catch (err) {
+        msg.className = 'message erreur';
+        msg.textContent = '❌ Erreur de connexion au serveur.';
+    }
+
+    btn.disabled = false;
+    btn.textContent = 'Créer mon compte club';
+});
+</script>
+</body>
+</html>

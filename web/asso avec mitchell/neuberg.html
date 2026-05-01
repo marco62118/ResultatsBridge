@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calcul des points — Neuberg &amp; Mitchell</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600;700&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --vert:  #1a472a;
+            --vert2: #2d6a4f;
+            --or:    #c9a84c;
+            --creme: #f8f4ec;
+            --texte: #1c1c1c;
+            --gris:  #6b6b6b;
+            --rouge: #c0392b;
+            --bleu:  #1565c0;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'DM Sans', sans-serif; background: var(--creme); color: var(--texte); min-height: 100vh; }
+        .header {
+            background: var(--vert);
+            color: white;
+            padding: 1.2rem 2rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        .header-titre { font-family: 'Cormorant Garamond', serif; font-size: 1.5rem; font-weight: 600; }
+        .header-sous  { font-size: 0.8rem; opacity: 0.7; margin-top: 2px; }
+        .main { max-width: 860px; margin: 0 auto; padding: 2rem 1.2rem; }
+        h2 {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.6rem;
+            color: var(--vert);
+            margin: 2rem 0 0.8rem;
+            padding-bottom: 0.4rem;
+            border-bottom: 2px solid var(--or);
+        }
+        h3 { font-size: 1.1rem; color: var(--vert2); margin: 1.2rem 0 0.5rem; }
+        p  { line-height: 1.7; margin-bottom: 0.8rem; }
+        .carte {
+            background: white;
+            border-radius: 14px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.04), 0 4px 20px rgba(26,71,42,0.07);
+            border: 1px solid rgba(201,168,76,0.18);
+        }
+        .formule {
+            background: #f0f7f2;
+            border-left: 4px solid var(--vert);
+            border-radius: 8px;
+            padding: 1rem 1.2rem;
+            margin: 1rem 0;
+            font-family: 'Courier New', monospace;
+            font-size: 1rem;
+            color: var(--vert);
+        }
+        table { width: 100%; border-collapse: collapse; margin: 1rem 0; font-size: 0.92rem; }
+        th { background: var(--vert); color: white; padding: 0.6rem 0.8rem; text-align: center; }
+        td { padding: 0.5rem 0.8rem; text-align: center; border-bottom: 1px solid #e8e4da; }
+        tr:last-child td { border-bottom: none; }
+        tr:nth-child(even) td { background: #faf8f4; }
+        .badge {
+            display: inline-block;
+            background: var(--or);
+            color: white;
+            border-radius: 20px;
+            padding: 0.15rem 0.7rem;
+            font-size: 0.8rem;
+            font-weight: 600;
+            margin-left: 0.4rem;
+        }
+        .badge-bleu { background: var(--bleu); }
+        .note {
+            background: #fff8e1;
+            border-left: 4px solid var(--or);
+            border-radius: 8px;
+            padding: 0.8rem 1rem;
+            margin: 0.8rem 0;
+            font-size: 0.9rem;
+            color: #5d4037;
+        }
+        .back-link {
+            display: inline-block;
+            color: var(--or);
+            text-decoration: none;
+            font-size: 0.9rem;
+            margin-bottom: 1rem;
+        }
+        .back-link:hover { text-decoration: underline; }
+        .schema {
+            display: flex;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+            margin: 0.8rem 0;
+        }
+        .table-box {
+            border: 2px solid var(--vert);
+            border-radius: 8px;
+            padding: 0.5rem 0.8rem;
+            text-align: center;
+            min-width: 80px;
+            font-size: 0.85rem;
+        }
+        .table-box .num { font-size: 1.1rem; font-weight: 700; color: var(--vert); }
+        .arrow { display: flex; align-items: center; color: var(--gris); font-size: 1.3rem; }
+        .gueridon { font-size: 1.5rem; margin: 0 auto; text-align: center; }
+    </style>
+</head>
+<body>
+
+<div class="header">
+    <div>
+        <div class="header-titre">🃏 Règles de calcul des points</div>
+        <div class="header-sous">Neuberg · Mitchell avec skip · Mitchell avec guéridon</div>
+    </div>
+    <a href="resultats.html" style="color:rgba(255,255,255,0.8);font-size:0.88rem;text-decoration:none">← Retour</a>
+</div>
+
+<div class="main">
+
+    <!-- ═══════════════════════════════════════════════════════════ -->
+    <!--  SECTION 1 — POINTS NEUBERG                                -->
+    <!-- ═══════════════════════════════════════════════════════════ -->
+    <h2>1. Points Neuberg</h2>
+
+    <div class="carte">
+        <h3>Pourquoi le Neuberg ?</h3>
+        <p>Dans un tournoi de bridge, chaque donne est normalement jouée le <strong>même nombre de fois</strong> par toutes les équipes. Mais parfois, une ou plusieurs donnes n'ont pas été jouées par certaines équipes (table Relais, temps, retard, donne sautée…). Elles ont alors joué <em> moins de donne</em> que les autres équipes.</p>
+<p>		
+Imaginez deux donnes :</p>
+<ul style="margin-left:1.2rem;line-height:1.8">
+<li>Donne A : Jouée 3 fois. Top possible = 4 pts en PM.</li>
+<li>Donne B : Jouée 2 fois seulement. Top possible = 2 pts en PM.</li>
+</ul>
+<p>Si une paire NS marque le Top sur la Donne B, elle ne gagne que 2 points, alors que celle qui gagne la paire NS Donne A en marque 4. Il y aura bien une différence sur le classement total. C'est injuste car la performance est la même (être premier). </p>
+        <p>La <strong>formule de Neuberg</strong> corrige ce déséquilibre en "gonflant" les PM des donnes moins jouées pour les ramener à la moyenne du tournoi.</p>
+
+        <h3>La formule de Neuberg</h3>
+        <div class="formule">
+            PM ajusté = ( N × (PM + 1) ) / n  −  1
+        </div>
+        <ul style="margin-left:1.2rem;line-height:1.8">
+            <li><strong>N</strong> = nombre <em>total</em> de fois que la donne a été jouée (nombre maximum)</li>
+            <li><strong>n</strong> = nombre de fois que <em>cette équipe</em> a joué cette donne</li>
+            <li><strong>PM</strong> = points obtenu en Points Match avant ajustement</li>
+        </ul>
+
+        <h3>Exemple concret</h3>
+        <p>Supposons une donne jouée <strong>N = 6 fois</strong> au total. Une équipe NS l'a jouée <strong>n = 4 fois</strong> et a obtenu <strong>7 points</strong> en PM simplifiés (PMtop = 10).</p>
+
+        <div class="formule">
+            PM ajusté = ( 6 × (7 + 1) ) / 4  −  1  =  48 / 4  −  1  =  <strong>11</strong>
+        </div>
+
+        <table>
+            <thead><tr><th>n (fois jouées)</th><th>PM réel</th><th>N = 6</th><th>PM Neuberg</th></tr></thead>
+            <tbody>
+                <tr><td>6 (complet)</td><td>8</td><td>6</td><td>8,00 (inchangé)</td></tr>
+                <tr><td>4</td><td>7</td><td>6</td><td>11,00</td></tr>
+                <tr><td>4</td><td>3</td><td>6</td><td>5,50</td></tr>
+                <tr><td>3</td><td>2</td><td>6</td><td>5,00</td></tr>
+                <tr><td>3</td><td>0</td><td>6</td><td>1,00</td></tr>
+            </tbody>
+        </table>
+
+        <div class="note">
+            💡 La correction Neuberg n'est appliquée que lorsque <em>n &lt; N</em>, c'est-à-dire quand une donne n'a pas été jouée le nombre maximum de fois. Si n = N, le score reste inchangé.
+        </div>
+
+        <h3>Score en pourcentage (%)</h3>
+        <p>En plus du score en points, l'application affiche le score en pourcentage pour faciliter la comparaison :</p>
+        <div class="formule">
+            Score % = ( points obtenus / (donnes jouées × Ntop) ) × 100
+        </div>
+        <p>Où <strong>Ntop = (N − 1) × 2</strong> est le score maximum possible sur une donne (obtenu si l'on bat tout le monde).</p>
+        <p>Exemple : 45 points sur 60 possibles → <strong>75,0 %</strong></p>
+    </div>
+
+    <!-- ═══════════════════════════════════════════════════════════ -->
+    <!--  SECTION 2 — MITCHELL AVEC SKIP                            -->
+    <!-- ═══════════════════════════════════════════════════════════ -->
+    <h2>2. Tournoi Mitchell avec skip (nombre de tables pair)</h2>
+
+    <div class="carte">
+        <h3>Rappel : le mouvement Mitchell standard</h3>
+        <p>Dans un tournoi Mitchell, les paires <strong>NS restent à leur table</strong> d'un mouvement à l'autre. Les paires <strong>EO se déplacent</strong> d'une table vers le haut (table 1 → 2 → 3…) à chaque mouvement, et les donnes se déplacent d'une table vers le bas.</p>
+
+        <h3>Le problème avec un nombre pair de tables</h3>
+        <p>Quand le nombre de tables est <strong>pair</strong> (ex. : 4, 6, 8 tables), le mouvement Mitchell classique crée une situation où chaque paire EO rencontre exactement les <strong>mêmes paires NS</strong> qu'une autre paire EO. Certaines rencontres sont donc dupliquées — deux paires EO jouent exactement le même chemin — ce qui rend le classement inéquitable.</p>
+
+        <h3>La solution : le skip</h3>
+        <p>Après exactement la <strong>moitié des mouvements</strong>, les paires EO font un <em>saut de deux tables</em> au lieu d'une. Ce "skip" casse la symétrie et garantit que toutes les paires EO affrontent des paires NS différentes.</p>
+
+        <div class="note">
+            ⚠️ Le skip se produit automatiquement. L'application affiche un avertissement en rouge "⚠️ sauté à la Table X" pour signaler ce mouvement spécial.
+        </div>
+
+        <h3>Exemple : 6 tables, 11 mouvements</h3>
+        <p>Le skip a lieu après le mouvement 3 (= 6 ÷ 2). La paire EO saute 2 tables au lieu d'une.</p>
+
+        <table>
+            <thead><tr><th>Mouvement</th><th>Action EO</th><th>Remarque</th></tr></thead>
+            <tbody>
+                <tr><td>1 → 2</td><td>+1 table</td><td>Normal</td></tr>
+                <tr><td>2 → 3</td><td>+1 table</td><td>Normal</td></tr>
+                <tr><td>3 → 4</td><td><strong>+2 tables (skip)</strong></td><td style="color:var(--rouge)">⚠️ Skip après mouvement 3</td></tr>
+                <tr><td>4 → 5</td><td>+1 table</td><td>Normal</td></tr>
+                <tr><td>5 → 6</td><td>+1 table</td><td>Normal</td></tr>
+                <tr><td colspan="3" style="color:var(--gris);font-size:0.85rem">… et ainsi de suite pour les 11 mouvements</td></tr>
+            </tbody>
+        </table>
+
+        <div class="note">
+            💡 Pour un nombre <strong>impair</strong> de tables (3, 5, 7…), aucun skip n'est nécessaire : le mouvement Mitchell classique garantit déjà que toutes les rencontres sont uniques.
+        </div>
+    </div>
+
+    <!-- ═══════════════════════════════════════════════════════════ -->
+    <!--  SECTION 3 — MITCHELL AVEC GUÉRIDON                        -->
+    <!-- ═══════════════════════════════════════════════════════════ -->
+    <h2>3. Tournoi Mitchell avec guéridon</h2>
+
+    <div class="carte">
+        <h3>À quoi sert le guéridon ?</h3>
+        <p>Le <strong>guéridon</strong> (aussi appelé "table fantôme" ou "relay table") est une table virtuelle utilisée lorsque le nombre de paires est <strong>impair</strong>. Sans lui, une table resterait incomplète à chaque mouvement (une paire sans adversaire).</p>
+        <p>Le guéridon permet d'accueillir les donnes en attente pendant qu'une paire est en "bye" (au repos ce mouvement-ci). Chaque paire passe par le guéridon exactement une fois.</p>
+
+        <h3>Comment fonctionne le guéridon ?</h3>
+        <p>Prenons l'exemple d'un tournoi à <strong>5 tables</strong> (10 paires — nombre pair) mais avec 1 paire de moins = <strong>9 paires</strong>. On crée alors 5 tables dont une sera le guéridon.</p>
+
+        <div class="gueridon">🪑</div>
+        <p style="text-align:center;color:var(--gris);font-size:0.88rem;margin-top:0.3rem">Le guéridon : table d'attente des donnes</p>
+
+        <h3>Règles de mouvement avec guéridon</h3>
+        <ul style="margin-left:1.2rem;line-height:1.9">
+            <li>Les paires <strong>NS restent à leur table</strong>, comme dans un Mitchell classique.</li>
+            <li>Les paires <strong>EO se déplacent</strong> d'une table à la suivante à chaque mouvement.</li>
+            <li>Les <strong>donnes</strong> se déplacent aussi, mais <em>dans le sens opposé aux EO</em>.</li>
+            <li>Quand une paire EO arrive au <strong>guéridon</strong>, elle ne joue <strong>pas</strong> ce mouvement — elle attend que les autres terminent.</li>
+            <li>Les donnes présentes au guéridon à ce moment-là "sautent" également.</li>
+        </ul>
+
+        <h3>Avantages</h3>
+        <ul style="margin-left:1.2rem;line-height:1.9">
+            <li>Permet de jouer avec un <strong>nombre impair de paires</strong> sans exclure personne définitivement.</li>
+            <li><strong>Pas de skip</strong> dans ce format : le mouvement est régulier (+1 table à chaque fois).</li>
+            <li>Toutes les paires jouent le même nombre de donnes au final.</li>
+        </ul>
+
+        <div class="note">
+            💡 Dans l'application, la paire "Relais" (Guéridon) est créée automatiquement. Elle n'a pas de vrais joueurs — son nom est <em>RELAIS</em>. Quand l'équipe Relais est adversaire, la paire EO attend à la table relais jusqu'au mouvement suivant.
+        </div>
+
+        <h3>Différence avec Mitchell + skip</h3>
+        <table>
+            <thead><tr><th>Critère</th><th>Mitchell classique + skip</th><th>Mitchell + guéridon</th></tr></thead>
+            <tbody>
+                <tr><td>Nombre de paires</td><td>Pair</td><td>Impair</td></tr>
+                <tr><td>Skip</td><td>Oui (si nb tables pair)</td><td>Non</td></tr>
+                <tr><td>Table fantôme</td><td>Non</td><td>Oui (guéridon)</td></tr>
+                <tr><td>Paire en attente</td><td>Aucune</td><td>1 paire par mouvement</td></tr>
+                <tr><td>Nb mouvements</td><td>Tables − 1 (ou Tables)</td><td>= Nb tables</td></tr>
+            </tbody>
+        </table>
+    </div>
+
+</div>
+</body>
+</html>
