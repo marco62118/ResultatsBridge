@@ -37,7 +37,7 @@ ResultatsBridge est une solution complète sur smartphone Android permettant l'o
 - Tournois Howell (avec ou sans table relais)
 - Tournois Mitchell (avec skip, guéridon, table relais)
 
-Tous les mouvements sont préétablis et indiqués sur les smartphones.
+Tous les mouvements (rondes) sont préétablis et indiqués sur les smartphones, tables ou se rendre, équipe à rencontrer, les donnes à jouer.
 
 ---
 
