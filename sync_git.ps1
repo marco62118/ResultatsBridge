@@ -47,12 +47,16 @@ Write-Host "4. Envoi vers GitHub..." -ForegroundColor Cyan
 git -C $repo add .
 
 $status = git -C $repo status --porcelain
-if ($status -eq "") {
+if (-not $status) {
     Write-Host "   Aucun changement detecte — rien a commiter." -ForegroundColor DarkYellow
 } else {
     git -C $repo commit -m $Message
-    git -C $repo push
-    Write-Host "   Push OK !" -ForegroundColor Green
+    if ($LASTEXITCODE -eq 0) {
+        git -C $repo push
+        Write-Host "   Push OK !" -ForegroundColor Green
+    } else {
+        Write-Host "   Echec du commit." -ForegroundColor Red
+    }
 }
 
 Write-Host ""
