@@ -19,6 +19,6 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "TournoiBridgeOnline"
+rootProject.name = "resultatsbridge"
 include(":app")
  

@@ -1,6 +1,0 @@
-package embrun.fr.tournoibridgeonline.common.model
-
-data class Tour(
-    val joueur: String,
-    val annonce: String
-)

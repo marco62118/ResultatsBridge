@@ -1,0 +1,232 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   viewBox="0 0 680 680"
+   width="680"
+   height="680"
+   version="1.1"
+   id="svg12"
+   sodipodi:docname="ic_launcher_abe2.svg"
+   inkscape:version="1.4.3 (0d15f75, 2025-12-25)"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <sodipodi:namedview
+     id="namedview12"
+     pagecolor="#ffffff"
+     bordercolor="#000000"
+     borderopacity="0.25"
+     inkscape:showpageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     inkscape:deskcolor="#d1d1d1"
+     inkscape:zoom="0.82461129"
+     inkscape:cx="511.14993"
+     inkscape:cy="320.75719"
+     inkscape:window-width="1920"
+     inkscape:window-height="1002"
+     inkscape:window-x="-8"
+     inkscape:window-y="-8"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="svg12" />
+  <defs
+     id="defs1">
+    <path
+       id="arcText"
+       d="M 111,472 A 265,265 0 1 1 569,472"
+       fill="none" />
+    <path
+       id="arcBottom"
+       d="M 111,472 A 265,265 0 0 0 569,472"
+       fill="none" />
+  </defs>
+  <circle
+     cx="340"
+     cy="340"
+     r="336"
+     fill="white"
+     id="circle1" />
+  <circle
+     cx="340"
+     cy="340"
+     r="330"
+     fill="none"
+     stroke="#111"
+     stroke-width="3"
+     id="circle2" />
+  <g
+     transform="translate(340,315) rotate(45)"
+     id="g2">
+    <rect
+       x="-192"
+       y="-192"
+       width="384"
+       height="384"
+       rx="10"
+       fill="#2E7D32"
+       stroke="#1a5c1a"
+       stroke-width="4"
+       id="rect2" />
+  </g>
+  <g
+     transform="rotate(-50,447.57122,-155.65584)"
+     id="g4">
+    <rect
+       x="-36"
+       y="-58"
+       width="72"
+       height="112"
+       rx="7"
+       fill="#ffffff"
+       stroke="#bbbbbb"
+       stroke-width="1.5"
+       id="rect3" />
+    <text
+       x="-22"
+       y="-38"
+       font-size="18px"
+       fill="#111111"
+       font-family="Georgia, serif"
+       font-weight="bold"
+       id="text3">♠</text>
+    <text
+       x="-3.3481627"
+       y="16.156782"
+       text-anchor="middle"
+       font-size="58.0894px"
+       fill="#111111"
+       font-family="Georgia, serif"
+       id="text4"
+       transform="matrix(0.99730595,0.01602993,0.01602993,1.002959,0,0)"
+       style="stroke-width:1.45223">♠</text>
+  </g>
+  <g
+     transform="rotate(-17,1334.887,-670.11092)"
+     id="g6">
+    <rect
+       x="-36"
+       y="-58"
+       width="72"
+       height="112"
+       rx="7"
+       fill="#ffffff"
+       stroke="#bbbbbb"
+       stroke-width="1.5"
+       id="rect4" />
+    <text
+       x="-22"
+       y="-38"
+       font-size="18px"
+       fill="#c62828"
+       font-family="Georgia, serif"
+       font-weight="bold"
+       id="text5">♥</text>
+    <text
+       x="1.4810874"
+       y="11.403272"
+       text-anchor="middle"
+       font-size="46.422px"
+       fill="#c62828"
+       font-family="Georgia, serif"
+       id="text6"
+       transform="matrix(0.88721025,-0.08356815,-0.08356815,1.135,0,0)"
+       style="stroke-width:1.16055">♥</text>
+  </g>
+  <g
+     transform="rotate(17,-742.30273,1332.4995)"
+     id="g8">
+    <rect
+       x="-36"
+       y="-58"
+       width="72"
+       height="112"
+       rx="7"
+       fill="#ffffff"
+       stroke="#bbbbbb"
+       stroke-width="1.5"
+       id="rect6" />
+    <text
+       x="-22"
+       y="-38"
+       font-size="18px"
+       fill="#c62828"
+       font-family="Georgia, serif"
+       font-weight="bold"
+       id="text7">♦</text>
+    <text
+       x="2.2659841"
+       y="23.503948"
+       text-anchor="middle"
+       font-size="66.6461px"
+       fill="#c62828"
+       font-family="Georgia, serif"
+       id="text8"
+       transform="matrix(1.0195708,-0.01301794,-0.01301794,0.98097108,0,0)"
+       style="stroke-width:1.66615">♦</text>
+  </g>
+  <g
+     transform="matrix(0.57387946,0.67027586,-0.68392291,0.56242823,414.76701,335.97421)"
+     id="g10">
+    <rect
+       x="-36"
+       y="-58"
+       width="72"
+       height="112"
+       rx="7"
+       fill="#ffffff"
+       stroke="#bbbbbb"
+       stroke-width="1.5"
+       id="rect8" />
+    <text
+       x="-22"
+       y="-38"
+       font-size="18px"
+       fill="#111111"
+       font-family="Georgia, serif"
+       font-weight="bold"
+       id="text9">♣</text>
+    <text
+       x="0.77835423"
+       y="15.157508"
+       text-anchor="middle"
+       font-size="51.9198px"
+       fill="#111111"
+       font-family="Georgia, serif"
+       id="text10"
+       transform="matrix(0.99222336,-0.05200594,-0.05200594,1.0105634,0,0)"
+       style="stroke-width:1.29799">♣</text>
+  </g>
+  <text
+     font-size="40px"
+     font-weight="700"
+     fill="#111111"
+     font-family="Georgia, serif"
+     letter-spacing="3"
+     id="text11"
+     transform="matrix(1.1219906,0,0,1.3622877,-40.298108,-29.105721)"><textPath
+       href="#arcText"
+       startOffset="50%"
+       text-anchor="middle"
+       id="textPath10">AMICALE BRIDGE EMBRUNAISE</textPath></text>
+  <text
+     font-size="46"
+     font-weight="700"
+     fill="#111"
+     font-family="Georgia, serif"
+     letter-spacing="20"
+     id="text12"><textPath
+       href="#arcBottom"
+       startOffset="50%"
+       text-anchor="middle"
+       id="textPath11">A · B · E</textPath></text>
+  <text
+     xml:space="preserve"
+     style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:26.6667px;font-family:'Arial Rounded MT Bold';-inkscape-font-specification:'Arial Rounded MT Bold, ';writing-mode:lr-tb;direction:ltr;fill:#000000;stroke-width:1.264;stroke-dasharray:none"
+     x="845.2467"
+     y="451.12164"
+     id="text16"><tspan
+       sodipodi:role="line"
+       id="tspan16"
+       x="845.2467"
+       y="451.12164" /></text>
+</svg>

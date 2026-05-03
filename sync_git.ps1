@@ -19,7 +19,7 @@ if ($Message -eq "") {
 # 1. Copie Android (sans build/, .gradle/, .idea/, *.apk)
 Write-Host ""
 Write-Host "1. Android..." -ForegroundColor Cyan
-robocopy "C:\Users\Public\Documents\oldProjects_android_studioold\TournoiBridgeOnline" `
+robocopy "C:\Users\Public\Documents\oldProjects_android_studioold\resultatsbridge" `
          "$repo\android" `
          /MIR /XD build .gradle .idea /XF "*.apk" /NFL /NDL /NJH /NJS
 Write-Host "   OK" -ForegroundColor Green

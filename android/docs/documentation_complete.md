@@ -1,4 +1,4 @@
-# DOCUMENTATION COMPLÈTE - TOURNOI BRIDGE ONLINE
+# DOCUMENTATION COMPLÈTE - RÉSUTATS BRIDGE 
 *Générée le 28/04/2026 — Lecture de 80+ fichiers Kotlin et 25+ fichiers PHP*
 
 ---

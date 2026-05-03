@@ -5,11 +5,11 @@ plugins {
 }
 
 android {
-    namespace = "embrun.fr.tournoibridgeonline"
+    namespace = "app.resultatsbridge"
     compileSdk = 36
 
     defaultConfig {
-        applicationId = "embrun.fr.tournoibridgeonline"
+        applicationId = "app.resultatsbridge"
         minSdk = 23
         targetSdk = 36
         versionCode = 1

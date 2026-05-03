@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg viewBox="0 0 680 680" width="680" height="680" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <!-- Arc principal : de bas-gauche à bas-droite en passant par le HAUT, rayon 265 -->
+    <path id="arcText" d="M 111,472 A 265,265 0 1 1 569,472" fill="none"/>
+    <!-- Arc bas pour ABE : même points, sens inverse -->
+    <path id="arcBottom" d="M 111,472 A 265,265 0 0 0 569,472" fill="none"/>
+  </defs>
+
+  <!-- Fond blanc -->
+  <circle cx="340" cy="340" r="336" fill="white"/>
+  <!-- Bordure noire fine -->
+  <circle cx="340" cy="340" r="330" fill="none" stroke="#111" stroke-width="4"/>
+  <!-- Deuxième cercle intérieur décoratif -->
+  <circle cx="340" cy="340" r="316" fill="none" stroke="#111" stroke-width="1.5"/>
+
+  <!-- Carré vert pivoté 45° -->
+  <g transform="translate(340,315) rotate(45)">
+    <rect x="-192" y="-192" width="384" height="384" rx="10" fill="#2E7D32" stroke="#1a5c1a" stroke-width="4"/>
+  </g>
+
+  <!-- 4 cartes en éventail depuis Inkscape (positions conservées) -->
+  <g transform="rotate(-50,447.57122,-155.65584)">
+    <rect x="-36" y="-58" width="72" height="112" rx="7" fill="white" stroke="#bbb" stroke-width="1.5"/>
+    <text x="-22" y="-38" font-size="18" fill="#111" font-family="Georgia,serif" font-weight="bold">♠</text>
+    <text x="0" y="14" text-anchor="middle" font-size="52" fill="#111" font-family="Georgia,serif">♠</text>
+  </g>
+  <g transform="rotate(-17,1334.887,-670.11092)">
+    <rect x="-36" y="-58" width="72" height="112" rx="7" fill="white" stroke="#bbb" stroke-width="1.5"/>
+    <text x="-22" y="-38" font-size="18" fill="#C62828" font-family="Georgia,serif" font-weight="bold">♥</text>
+    <text x="0" y="14" text-anchor="middle" font-size="52" fill="#C62828" font-family="Georgia,serif">♥</text>
+  </g>
+  <g transform="rotate(17,-742.30273,1332.4995)">
+    <rect x="-36" y="-58" width="72" height="112" rx="7" fill="white" stroke="#bbb" stroke-width="1.5"/>
+    <text x="-22" y="-38" font-size="18" fill="#C62828" font-family="Georgia,serif" font-weight="bold">♦</text>
+    <text x="0" y="14" text-anchor="middle" font-size="52" fill="#C62828" font-family="Georgia,serif">♦</text>
+  </g>
+  <g transform="matrix(0.57387946,0.67027586,-0.68392291,0.56242823,414.76701,335.97421)">
+    <rect x="-36" y="-58" width="72" height="112" rx="7" fill="white" stroke="#bbb" stroke-width="1.5"/>
+    <text x="-22" y="-38" font-size="18" fill="#111" font-family="Georgia,serif" font-weight="bold">♣</text>
+    <text x="0" y="14" text-anchor="middle" font-size="52" fill="#111" font-family="Georgia,serif">♣</text>
+  </g>
+
+  <!-- Texte circulaire principal - SANS matrix déformant -->
+  <text font-size="40" font-weight="700" fill="#111"
+        font-family="Georgia, 'Times New Roman', serif"
+        letter-spacing="4">
+    <textPath href="#arcText" startOffset="50%" text-anchor="middle">
+      AMICALE BRIDGE EMBRUNAISE
+    </textPath>
+  </text>
+
+  <!-- ABE en bas lisible -->
+  <text font-size="46" font-weight="700" fill="#111"
+        font-family="Georgia, 'Times New Roman', serif"
+        letter-spacing="20">
+    <textPath href="#arcBottom" startOffset="50%" text-anchor="middle">
+      A · B · E
+    </textPath>
+  </text>
+</svg>

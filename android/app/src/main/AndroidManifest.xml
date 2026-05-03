@@ -18,7 +18,7 @@
         android:usesCleartextTraffic="true">
 
         <activity
-            android:name=".MainActivity"
+            android:name=".main.MainActivity"
             android:exported="true"
             android:configChanges="orientation|screenSize|screenLayout|smallestScreenSize"
             android:theme="@style/Theme.TournoiBridgeOnline">
@@ -32,7 +32,7 @@
         <activity android:name=".organisateur.ParticipationOrganisateurActivity" />
 
         <activity
-            android:name=".ListeEquipesActivity"
+            android:name=".organisateur.ListeEquipesActivity"
             android:exported="false"
             android:label="Liste des équipes" />
 
